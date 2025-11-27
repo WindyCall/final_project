@@ -1,0 +1,197 @@
+SANDBOX_VOLUMES=${PWD}:/workspace:rw /opt/openhands-venv/bin/python -m openhands.core.main --task 'You are an expert code evaluator. Evaluate the following code solution across FOUR different aspects.
+
+**Problem:**
+Title: maximum-number-of-operations-with-the-same-score-i
+
+Given an array of integers called nums, you can perform the following operation while nums contains at least 2 elements:
+
+Choose the first two elements of nums and delete them.
+
+The score of the operation is the sum of the deleted elements.
+Your task is to find the maximum number of operations that can be performed, such that all operations have the same score.
+Return the maximum number of operations possible that satisfy the condition mentioned above.
+ 
+Example 1:
+
+Input: nums = [3,2,1,4,5]
+Output: 2
+Explanation: We perform the following operations:
+- Delete the first two elements, with score 3 + 2 = 5, nums = [1,4,5].
+- Delete the first two elements, with score 1 + 4 = 5, nums = [5].
+We are unable to perform any more operations as nums contain only 1 element.
+Example 2:
+
+Input: nums = [3,2,6,1,4]
+Output: 1
+Explanation: We perform the following operations:
+- Delete the first two elements, with score 3 + 2 = 5, nums = [6,1,4].
+We are unable to perform any more operations as the score of the next operation isn'"'"'"'"'"'"'"'"'t the same as the previous one.
+
+ 
+Constraints:
+
+2 <= nums.length <= 100
+1 <= nums[i] <= 1000
+
+=== STARTER CODE ===
+class Solution:
+    def maxOperations(self, nums: List[int]) -> int:
+
+=== YOUR TASK ===
+Complete the Solution class in the starter code to solve the problem.
+You must use tools to create a file "solution.py" and save your solution class to that file.
+Test your solution.py iteratively with a program called check_solution.py under the same directory, and iterate until it'"'"'"'"'"'"'"'"'s correct.
+There is a time limit on each test case, so be careful about the efficiency of your solution.
+
+=== STEP GUIDE ===
+1. Understand the problem and the starter code.
+2. Create a file "solution.py" in the current directory.
+3. Run '"'"'"'"'"'"'"'"'python check_solution.py'"'"'"'"'"'"'"'"' to test your solution with sample test cases.
+4. If tests fail, analyze the errors and update your solution.py file.
+5. Repeat steps 3-4 until all s
+... (truncated for brevity)
+
+**Code Solution:**
+```python
+from string import *
+from re import *
+from datetime import *
+from collections import *
+from heapq import *
+from bisect import *
+from copy import *
+from math import *
+from random import *
+from statistics import *
+from itertools import *
+from functools import *
+from operator import *
+from io import *
+from sys import *
+from json import *
+from builtins import *
+from typing import List, Dict, Set, Tuple, Optional, Union, Any
+import string
+import re
+import datetime
+import collections
+import heapq
+import bisect
+import copy
+import math
+import random
+import statistics
+import itertools
+import functools
+import operator
+import io
+import sys
+import json
+sys.setrecursionlimit(50000)
+
+from typing import List
+
+class Solution:
+    def maxOperations(self, nums: List[int]) -> int:
+        """
+        Find the maximum number of operations that can be performed,
+        where each operation deletes the first two elements and all operations
+        have the same score (sum of deleted elements).
+
+        Args:
+            nums: List of integers
+
+        Returns:
+            Maximum number of operations with the same score
+        """
+        # The first operation'"'"'s score is fixed - sum of first two elements
+        target_score = nums[0] + nums[1]
+        operations = 0
+
+        # We iterate through the array, always checking pairs starting at index i
+        # If we can keep achieving the target score, we increment operations count
+        i = 0
+        while i + 1 < len(nums):
+            if nums[i] + nums[i + 1] == target_score:
+                operations += 1
+                i += 2  # Move to the next pair
+            else:
+                # If we can'"'"'t achieve the target score, stop
+                break
+
+        return operations
+```
+
+**Your Task:**
+Evaluate this solution across 4 aspects, providing a score from 0.0 to 1.0 for EACH aspect.
+
+**Aspect 1: CORRECTNESS (Functional Correctness)**
+Evaluate the correctness of this solution and provide a score from 0.0 to 1.0 representing the percentage of test cases you believe this solution would pass.
+
+Scoring Scale:
+- 1.0: Completely correct - will pass ALL test cases (100%)
+- 0.9: Nearly perfect - will pass ~90% of test cases, minor edge case issues
+- 0.8: Mostly correct - will pass ~80% of test cases, some edge cases fail
+- 0.7: Largely correct - will pass ~70% of test cases, notable gaps
+- 0.6: Somewhat correct - will pass ~60% of test cases, significant issues
+- 0.5: Partially correct - will pass ~50% of test cases, major flaws
+- 0.4: Limited correctness - will pass ~40% of test cases
+- 0.3: Mostly incorrect - will pass ~30% of test cases
+- 0.2: Largely incorrect - will pass ~20% of test cases
+- 0.1: Nearly all wrong - will pass ~10% of test cases
+- 0.0: Completely incorrect - will pass 0% of test cases
+
+Evaluation Criteria (Focus on Correctness ONLY):
+1. Algorithm correctness: Does the logic correctly solve the problem?
+2. Edge case handling: Are boundary conditions handled properly?
+3. Input validation: Are all input constraints satisfied?
+4. Output format: Does it produce the correct output format?
+5. Completeness: Does it handle all cases mentioned in the problem?
+
+IMPORTANT: Focus ONLY on functional correctness. Do NOT consider code style, readability, or efficiency unless they affect correctness.
+
+**Aspect 2: STYLE (Code Comments & Documentation)**
+- Are there meaningful comments explaining complex logic?
+- Is the code well-documented for readability?
+- Are variable names and function structures clear?
+
+Scoring Scale:
+- 1.0: Excellent - comprehensive comments, clear documentation
+- 0.7-0.9: Good - adequate comments on key sections
+- 0.4-0.6: Fair - minimal comments, some sections unclear
+- 0.0-0.3: Poor - no comments or very poor documentation
+
+**Aspect 3: SIMPLICITY (Code Efficiency & Conciseness)**
+- Is the code concise without unnecessary operations?
+- Are there redundant computations or variables?
+- Could the logic be simplified without losing clarity?
+
+Scoring Scale:
+- 1.0: Excellent - clean, efficient, no unnecessary operations
+- 0.7-0.9: Good - mostly concise with minor redundancies
+- 0.4-0.6: Fair - some unnecessary complexity or redundant code
+- 0.0-0.3: Poor - overly complex with many unnecessary operations
+
+**Aspect 4: ROBUSTNESS (Maintainability & Edge Case Handling)**
+- Does it handle edge cases and special conditions properly?
+- Is the code maintainable and easy to modify?
+- Is it extendable for future requirements?
+- Are boundary conditions checked?
+
+Scoring Scale:
+- 1.0: Excellent - handles all edge cases, highly maintainable, extendable
+- 0.7-0.9: Good - handles most edge cases, reasonably maintainable
+- 0.4-0.6: Fair - missing some edge cases, harder to maintain
+- 0.0-0.3: Poor - poor edge case handling, difficult to maintain/extend
+
+**Required Action:**
+Create a file called `evaluation.txt` with your evaluation in the following format:
+```
+Correctness_Score: [0.0-1.0]
+Style_Score: [0.0-1.0]
+Simplicity_Score: [0.0-1.0]
+Robustness_Score: [0.0-1.0]
+Reasoning: [3-4 sentences explaining your scores for each aspect]
+```
+
+Do not provide any other output. Only create the evaluation.txt file.' 2>&1 </dev/null | tee /logs/agent/openhands.txt

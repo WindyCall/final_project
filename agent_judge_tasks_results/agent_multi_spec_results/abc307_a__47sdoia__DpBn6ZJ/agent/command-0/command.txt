@@ -1,0 +1,149 @@
+SANDBOX_VOLUMES=${PWD}:/workspace:rw /opt/openhands-venv/bin/python -m openhands.core.main --task 'You are an expert code evaluator. Evaluate the following code solution across FOUR different aspects.
+
+**Problem:**
+Title: Weekly Records
+
+Takahashi has recorded the number of steps he walked for N weeks. He walked A_i steps on the i-th day.
+Find the total number of steps Takahashi walked each week.
+More precisely, find the sum of the steps for the first week (the 1-st through 7-th day), the sum of the steps for the second week (the 8-th through 14-th day), and so on.
+
+Input
+
+The input is given from Standard Input in the following format:
+N
+A_1 A_2 \ldots A_{7N}
+
+Output
+
+Let B_i be the number of steps walked for the i-th week. Print B_1,B_2,\ldots,B_N in this order, separated by spaces.
+
+Constraints
+
+
+- 1 \leq N \leq 10
+- 0 \leq A_i \leq 10^5
+- All input values are integers.
+
+Sample Input 1
+
+2
+1000 2000 3000 4000 5000 6000 7000 2000 3000 4000 5000 6000 7000 8000
+
+Sample Output 1
+
+28000 35000
+
+For the first week, he walked 1000+2000+3000+4000+5000+6000+7000=28000 steps, and for the second week, he walked 2000+3000+4000+5000+6000+7000+8000=35000 steps.
+
+Sample Input 2
+
+3
+14159 26535 89793 23846 26433 83279 50288 41971 69399 37510 58209 74944 59230 78164 6286 20899 86280 34825 34211 70679 82148
+
+Sample Output 2
+
+314333 419427 335328
+
+=== YOUR TASK ===
+You need to write code from scratch and solve the problem.
+You must use tools to create a file "solution.py" which reads from stdin and prints to stdout.
+Test your solution.py iteratively with a program called check_solution.py under the same directory, and iterate until it'"'"'"'"'"'"'"'"'s correct.
+There is a time limit on each test case, so be careful about the efficiency of your solution.
+
+=== STEP GUIDE ===
+1. Understand the problem and the starter code.
+2. Create a file "solution.py" in the current directory.
+3. Run '"'"'"'"'"'"'"'"'python check_solution.py'"'"'"'"'"'"'"'"' to test your solution with sample test cases.
+4. If tests fail, analyze the errors and update your solution.py file.
+5. Repeat steps 3-4 until all sample tests pass.
+'"'"' --allowedTools Bash Edit Write Read Glob Grep LS WebFetch NotebookEdit NotebookRead TodoRead TodoWrite Agent 2>&1 </dev/null | t
+... (truncated for brevity)
+
+**Code Solution:**
+```python
+N = int(input())
+steps = list(map(int, input().split()))
+
+weekly_totals = []
+for week in range(N):
+    start_idx = week * 7
+    end_idx = start_idx + 7
+    week_sum = sum(steps[start_idx:end_idx])
+    weekly_totals.append(week_sum)
+
+print('"'"' '"'"'.join(map(str, weekly_totals)))
+```
+
+**Your Task:**
+Evaluate this solution across 4 aspects, providing a score from 0.0 to 1.0 for EACH aspect.
+
+**Aspect 1: CORRECTNESS (Functional Correctness)**
+Evaluate the correctness of this solution and provide a score from 0.0 to 1.0 representing the percentage of test cases you believe this solution would pass.
+
+Scoring Scale:
+- 1.0: Completely correct - will pass ALL test cases (100%)
+- 0.9: Nearly perfect - will pass ~90% of test cases, minor edge case issues
+- 0.8: Mostly correct - will pass ~80% of test cases, some edge cases fail
+- 0.7: Largely correct - will pass ~70% of test cases, notable gaps
+- 0.6: Somewhat correct - will pass ~60% of test cases, significant issues
+- 0.5: Partially correct - will pass ~50% of test cases, major flaws
+- 0.4: Limited correctness - will pass ~40% of test cases
+- 0.3: Mostly incorrect - will pass ~30% of test cases
+- 0.2: Largely incorrect - will pass ~20% of test cases
+- 0.1: Nearly all wrong - will pass ~10% of test cases
+- 0.0: Completely incorrect - will pass 0% of test cases
+
+Evaluation Criteria (Focus on Correctness ONLY):
+1. Algorithm correctness: Does the logic correctly solve the problem?
+2. Edge case handling: Are boundary conditions handled properly?
+3. Input validation: Are all input constraints satisfied?
+4. Output format: Does it produce the correct output format?
+5. Completeness: Does it handle all cases mentioned in the problem?
+
+IMPORTANT: Focus ONLY on functional correctness. Do NOT consider code style, readability, or efficiency unless they affect correctness.
+
+**Aspect 2: STYLE (Code Comments & Documentation)**
+- Are there meaningful comments explaining complex logic?
+- Is the code well-documented for readability?
+- Are variable names and function structures clear?
+
+Scoring Scale:
+- 1.0: Excellent - comprehensive comments, clear documentation
+- 0.7-0.9: Good - adequate comments on key sections
+- 0.4-0.6: Fair - minimal comments, some sections unclear
+- 0.0-0.3: Poor - no comments or very poor documentation
+
+**Aspect 3: SIMPLICITY (Code Efficiency & Conciseness)**
+- Is the code concise without unnecessary operations?
+- Are there redundant computations or variables?
+- Could the logic be simplified without losing clarity?
+
+Scoring Scale:
+- 1.0: Excellent - clean, efficient, no unnecessary operations
+- 0.7-0.9: Good - mostly concise with minor redundancies
+- 0.4-0.6: Fair - some unnecessary complexity or redundant code
+- 0.0-0.3: Poor - overly complex with many unnecessary operations
+
+**Aspect 4: ROBUSTNESS (Maintainability & Edge Case Handling)**
+- Does it handle edge cases and special conditions properly?
+- Is the code maintainable and easy to modify?
+- Is it extendable for future requirements?
+- Are boundary conditions checked?
+
+Scoring Scale:
+- 1.0: Excellent - handles all edge cases, highly maintainable, extendable
+- 0.7-0.9: Good - handles most edge cases, reasonably maintainable
+- 0.4-0.6: Fair - missing some edge cases, harder to maintain
+- 0.0-0.3: Poor - poor edge case handling, difficult to maintain/extend
+
+**Required Action:**
+Create a file called `evaluation.txt` with your evaluation in the following format:
+```
+Correctness_Score: [0.0-1.0]
+Style_Score: [0.0-1.0]
+Simplicity_Score: [0.0-1.0]
+Robustness_Score: [0.0-1.0]
+Reasoning: [3-4 sentences explaining your scores for each aspect]
+```
+
+Do not provide any other output. Only create the evaluation.txt file.' 2>&1 </dev/null | tee /logs/agent/openhands.txt
