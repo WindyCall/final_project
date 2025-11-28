@@ -13,7 +13,7 @@ CSV_FILE = BASE_DIR / "outputs" / "results" / "trivial" / "trivial_combined_resu
 JSON_DETAILS_FILE = BASE_DIR / "outputs" / "results" / "trivial" / "trivial_combined_results_summary.json"
 AGENT_MULTI_ROOT = BASE_DIR / "agent_judge_tasks_results" / "agent_multi_spec_result"
 AGENT_UNIT_PROMPT_ROOT = BASE_DIR / "agent_judge_tasks_results" / "agent_unit_test_result"
-AGENT_CORRECTNESS_ROOT = BASE_DIR / "agent_judge_tasks" / "correctness_judge" / "correctness_judge_tasks"
+AGENT_CORRECTNESS_ROOT = BASE_DIR / "agent_judge_tasks_results" / "agent_correctness_result"
 OUTPUT_DIR = Path(__file__).resolve().parent / "harbor_viz_site"
 LOG_FILE_CANDIDATES = [
     "claude-code.txt",
@@ -45,8 +45,16 @@ def build_agent_run_index(root: Path):
         return index
     for entry in root.iterdir():
         if entry.is_dir():
-            prefix = canonical_task_prefix(entry.name).lower()
-            index.setdefault(prefix, []).append(entry)
+            # Check if it's a task directory or a shard directory
+            if entry.name.startswith("agent_unit_test_judge_tasks") or entry.name.startswith("correctness_judge_tasks"):
+                # Recurse into shard directories
+                for sub_entry in entry.iterdir():
+                    if sub_entry.is_dir():
+                        prefix = canonical_task_prefix(sub_entry.name).lower()
+                        index.setdefault(prefix, []).append(sub_entry)
+            else:
+                prefix = canonical_task_prefix(entry.name).lower()
+                index.setdefault(prefix, []).append(entry)
     for prefix in index:
         index[prefix].sort(key=lambda p: p.stat().st_mtime, reverse=True)
     return index
@@ -105,6 +113,40 @@ def load_llm_judge_results(json_path: Path):
     except Exception as exc:
         print(f"⚠️ Unable to parse LLM judge results: {exc}")
         return {}
+
+def load_failed_tasks(result_json_path: Path):
+    """Load failed task IDs (reward 0.0) from a result.json file."""
+    failed_tasks = set()
+    if not result_json_path.exists():
+        return failed_tasks
+    
+    try:
+        with result_json_path.open('r', encoding='utf-8') as f:
+            data = json.load(f)
+        
+        # Navigate to reward stats
+        stats = data.get('stats', {})
+        evals = stats.get('evals', {})
+        
+        for eval_key, eval_data in evals.items():
+            reward_stats = eval_data.get('reward_stats', {})
+            reward_map = reward_stats.get('reward', {})
+            # Get tasks with 0.0 reward
+            failed_list = reward_map.get('0.0', [])
+            # Store only the canonical prefix to match csv IDs
+            for task in failed_list:
+                failed_tasks.add(canonical_task_prefix(task).lower())
+            
+    except Exception as exc:
+        print(f"⚠️ Unable to parse result JSON {result_json_path}: {exc}")
+        
+    return failed_tasks
+
+# Load failed tasks from all result.json files
+FAILED_TASKS = set()
+FAILED_TASKS.update(load_failed_tasks(AGENT_MULTI_ROOT / "result.json"))
+FAILED_TASKS.update(load_failed_tasks(AGENT_UNIT_PROMPT_ROOT / "result.json"))
+FAILED_TASKS.update(load_failed_tasks(AGENT_CORRECTNESS_ROOT / "result.json"))
 
 LLM_CORRECTNESS_RESULTS = load_llm_judge_results(BASE_DIR / "outputs" / "results" / "correctness" / "correctness_llm_judge_results.json")
 LLM_MULTI_ASPECT_RESULTS = load_llm_judge_results(BASE_DIR / "outputs" / "results" / "multi_aspect" / "multi_aspect_llm_judge_results.json")
@@ -836,6 +878,14 @@ for _, row in df.iterrows():
     task_id = str(row.get('ID', '')).strip()
     safe_id = task_id.replace('/', '_').replace('\\', '_')
     detail_entry = DETAIL_LOOKUP.get(task_id)
+
+    # Check if task failed (reward 0.0)
+    # Use canonical prefix matching
+    current_prefix = canonical_task_prefix(task_id).lower()
+    if current_prefix in FAILED_TASKS:
+        print(f"⚠️ [SKIP] Task '{task_id}': Task failed (reward 0.0) in inference results")
+        skipped_tasks.append(task_id)
+        continue
 
     # Check for exception.txt in agent_multi_spec_result
     prefix = canonical_task_prefix(task_id).lower()
