@@ -135,15 +135,28 @@ class MultiAspectLLMJudge:
             prompt = task['multi_aspect_prompt']
 
             # Call LLM via LiteLLM
+            # Note: For reasoning models like gpt-5-mini, we need higher max_tokens
+            # because they use reasoning tokens internally before generating output
+            max_tokens = 5000 if "gpt-5" in self.model else 800
+
             response = completion(
                 model=self.model,
                 messages=[{"role": "user", "content": prompt}],
-                max_tokens=800,
-                temperature=0.2,
+                max_tokens=max_tokens,
+                temperature=0.2 if "gpt-5" not in self.model else None,  # o1-like models don't support temperature
                 api_key=self.api_key
             )
 
             response_text = response.choices[0].message.content
+
+            # Check if response is empty
+            if not response_text or response_text.strip() == "":
+                error_msg = f"Empty response from LLM model {self.model}"
+                print(f"✗ {error_msg}")
+                print(f"   Full response object: {response}")
+                return {'correctness': -1.0, 'style': -1.0, 'simplicity': -1.0, 'robustness': -1.0}, \
+                       error_msg, ""
+
             scores, reasoning = self.parse_multi_aspect_scores(response_text)
 
             return scores, reasoning, response_text
@@ -151,6 +164,8 @@ class MultiAspectLLMJudge:
         except Exception as e:
             error_msg = f"Error calling LLM: {str(e)}"
             print(f"✗ {error_msg}")
+            import traceback
+            traceback.print_exc()
             return {'correctness': -1.0, 'style': -1.0, 'simplicity': -1.0, 'robustness': -1.0}, \
                    error_msg, ""
 
@@ -393,7 +408,7 @@ def main():
 
     tasks_json = "./outputs/extracted/multi_aspect/extracted_tasks_with_multi_aspect_prompts.json"
     output_file = "./outputs/results/multi_aspect/multi_aspect_llm_judge_results.json"
-    model = "gpt-4o-mini"
+    model = "gpt-5-mini"
 
     print("="*80)
     print("MULTI-ASPECT LLM JUDGE EVALUATION")
@@ -401,7 +416,7 @@ def main():
     print(f"Model: {model}")
     print(f"Aspects: Correctness, Style, Simplicity, Robustness")
     print()
-    
+
     # Run evaluation
     try:
         evaluator = MultiAspectLLMJudge(tasks_json, model=model)
