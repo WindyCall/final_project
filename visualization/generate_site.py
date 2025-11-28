@@ -837,6 +837,20 @@ for _, row in df.iterrows():
     safe_id = task_id.replace('/', '_').replace('\\', '_')
     detail_entry = DETAIL_LOOKUP.get(task_id)
 
+    # Check for exception.txt in agent_multi_spec_result
+    prefix = canonical_task_prefix(task_id).lower()
+    candidate_dirs = AGENT_MULTI_INDEX.get(prefix, [])
+    exception_found = False
+    for directory in candidate_dirs:
+        if (directory / "exception.txt").exists():
+            print(f"⚠️ [SKIP] Task '{task_id}': Exception found in {directory.name}/exception.txt")
+            skipped_tasks.append(task_id)
+            exception_found = True
+            break
+            
+    if exception_found:
+        continue
+
     # Validation flags
     has_errors = False
     error_messages = []
@@ -940,13 +954,13 @@ print(f"  [OK] Tasks included: {len(tasks_data)}")
 print(f"  [SKIP] Tasks skipped: {len(skipped_tasks)}")
 print(f"{'='*60}\n")
 
-template_index = jinja2.Template(INDEX_TEMPLATE)
+template_index = jinja2.Template(INDEX_TEMPLATE, autoescape=True)
 index_path = OUTPUT_DIR / "index.html"
 with index_path.open("w", encoding='utf-8') as f:
     f.write(template_index.render(tasks=tasks_data))
 
 print("Building task detail pages ...")
-template_detail = jinja2.Template(DETAIL_TEMPLATE)
+template_detail = jinja2.Template(DETAIL_TEMPLATE, autoescape=True)
 
 for _, row in df.iterrows():
     task_id = str(row.get('ID', '')).strip()
@@ -1027,8 +1041,8 @@ for _, row in df.iterrows():
 
     html_content = template_detail.render(
         id=task_id,
-        problem_desc=escape_text(problem_desc_clean),
-        model_solution=escape_text(model_solution),
+        problem_desc=problem_desc_clean,
+        model_solution=model_solution,
         scores={
             "unit": format_score(unit_score),
             "llm": format_score(llm_score),
@@ -1038,9 +1052,9 @@ for _, row in df.iterrows():
         score_color_llm=get_score_text_color(llm_score),
         score_color_agent=get_score_text_color(agent_score),
         reasoning={
-            "unit": escape_text(unit_test_details_text),
-            "llm": escape_text(llm_judge_reasoning_text),
-            "agent": escape_text(agent_judge_reasoning_text)
+            "unit": unit_test_details_text,
+            "llm": llm_judge_reasoning_text,
+            "agent": agent_judge_reasoning_text
         },
         models={
             "llm": detail_entry.get('llm_model') if detail_entry and detail_entry.get('llm_model') else row.get('LLM name', ''),
@@ -1053,8 +1067,8 @@ for _, row in df.iterrows():
         has_agent_multi_logs=bool(agent_multi_trajectory),
         has_agent_prompt_logs=bool(agent_prompt_trajectory),
         has_agent_correctness_logs=bool(agent_correctness_trajectory),
-        llm_multi_reasoning=escape_text(llm_multi_reasoning),
-        llm_correctness_reasoning=escape_text(llm_correctness_reasoning),
+        llm_multi_reasoning=llm_multi_reasoning,
+        llm_correctness_reasoning=llm_correctness_reasoning,
         llm_multi_aspect_scores=llm_multi_aspect_scores
     )
 
