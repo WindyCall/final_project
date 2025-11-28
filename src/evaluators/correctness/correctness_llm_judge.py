@@ -120,15 +120,28 @@ class CorrectnessLLMJudge:
             prompt = task['correctness_prompt']
 
             # Call LLM via LiteLLM
+            # Note: For reasoning models like gpt-5-mini, we need higher max_tokens
+            # because they use reasoning tokens internally before generating output
+            # Some complex prompts require more reasoning tokens
+            max_tokens = 5000 if "gpt-5" in self.model else 600
+
             response = completion(
                 model=self.model,
                 messages=[{"role": "user", "content": prompt}],
-                max_tokens=600,
-                temperature=0.2,  # Lower temperature for more consistent scoring
+                max_tokens=max_tokens,
+                # temperature=0.2,  # Lower temperature for more consistent scoring
                 api_key=self.api_key
             )
 
             response_text = response.choices[0].message.content
+
+            # Check if response is empty
+            if not response_text or response_text.strip() == "":
+                error_msg = f"Empty response from LLM model {self.model}"
+                print(f"✗ {error_msg}")
+                print(f"   Full response object: {response}")
+                return -1.0, error_msg, ""
+
             score, reasoning = self.parse_correctness_score(response_text)
 
             return score, reasoning, response_text
@@ -136,6 +149,8 @@ class CorrectnessLLMJudge:
         except Exception as e:
             error_msg = f"Error calling LLM: {str(e)}"
             print(f"✗ {error_msg}")
+            import traceback
+            traceback.print_exc()
             return -1.0, error_msg, ""
 
     def compute_unit_test_accuracy(self, task: Dict) -> float:
@@ -342,7 +357,7 @@ def main():
 
     tasks_json = "./outputs/extracted/correctness/extracted_tasks_with_correctness_prompts.json"
     output_file = "./outputs/results/correctness/correctness_llm_judge_results.json"
-    model = "gpt-4o-mini"
+    model = "gpt-5-mini"
 
     print("="*80)
     print("CORRECTNESS-ONLY LLM JUDGE EVALUATION")

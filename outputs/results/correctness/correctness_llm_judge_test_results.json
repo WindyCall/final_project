@@ -1,16 +1,16 @@
 {
-  "model": "gpt-4o-mini",
+  "model": "gpt-5-mini",
   "evaluation_type": "correctness_only",
   "metrics": {
-    "correlation": 0.24999999999999986,
-    "mae": 0.11142857142857143,
-    "rmse": 0.19219462924391018,
-    "binary_accuracy": 1.0,
-    "avg_correctness_score": 0.8800000000000001,
-    "avg_actual_accuracy": 0.9285714285714285,
-    "n_valid": 5,
+    "correlation": 1.0,
+    "mae": 0.11428571428571431,
+    "rmse": 0.19794866372215744,
+    "binary_accuracy": 0.6666666666666666,
+    "avg_correctness_score": 0.7666666666666666,
+    "avg_actual_accuracy": 0.8809523809523809,
+    "n_valid": 3,
     "n_total": 5,
-    "n_failed_parse": 0
+    "n_failed_parse": 2
   },
   "summary": {
     "total_tasks": 72,
@@ -22,14 +22,14 @@
     {
       "task_id": "1873_d__ewd5mxi",
       "problem_title": "D. 1D Eraser",
-      "correctness_score": 0.6,
+      "correctness_score": -1.0,
       "actual_accuracy": 1.0,
       "passed_tests": 13,
       "total_tests": 13,
       "unit_test_status": "PASSED",
-      "reasoning": "The logic for marking cells as white is flawed, as it does not correctly handle overlapping black cells when `k` is less than the distance between them. The algorithm also fails to skip over already processed cells efficiently, leading to unnecessary operations. This results in incorrect outputs for certain configurations of black and white cells, particularly when there are consecutive black cells that can be covered in fewer operations than the algorithm calculates.\n```",
-      "full_response": "```\nCORRECTNESS_SCORE: 0.6\nREASONING: The logic for marking cells as white is flawed, as it does not correctly handle overlapping black cells when `k` is less than the distance between them. The algorithm also fails to skip over already processed cells efficiently, leading to unnecessary operations. This results in incorrect outputs for certain configurations of black and white cells, particularly when there are consecutive black cells that can be covered in fewer operations than the algorithm calculates.\n```",
-      "model": "gpt-4o-mini"
+      "reasoning": "Empty response from LLM model gpt-5-mini",
+      "full_response": "",
+      "model": "gpt-5-mini"
     },
     {
       "task_id": "2808__j8QEgJL",
@@ -39,9 +39,9 @@
       "passed_tests": 14,
       "total_tests": 14,
       "unit_test_status": "PASSED",
-      "reasoning": "The provided solution correctly implements a dynamic programming approach to solve the problem of minimizing the cost of painting walls with the constraints of using a paid and a free painter. It accurately updates the state of painted walls and costs, ensuring that all edge cases, such as when the free painter can take over, are handled properly. Given the problem constraints and the logic applied, the solution will pass all test cases.\n```",
-      "full_response": "```\nCORRECTNESS_SCORE: 1.0\nREASONING: The provided solution correctly implements a dynamic programming approach to solve the problem of minimizing the cost of painting walls with the constraints of using a paid and a free painter. It accurately updates the state of painted walls and costs, ensuring that all edge cases, such as when the free painter can take over, are handled properly. Given the problem constraints and the logic applied, the solution will pass all test cases.\n```",
-      "model": "gpt-4o-mini"
+      "reasoning": "The solution correctly reduces the problem to selecting a subset of paid painters whose total capacity (time[i] + 1 per paid painter) reaches at least n, which is the standard knapsack-like formulation, and the DP implements this correctly (capping at n). Edge cases (no paid painter not allowed, caps, bounds) are handled properly, and the algorithm will produce the minimal cost for all valid inputs within constraints.\n```",
+      "full_response": "```\nCORRECTNESS_SCORE: 1.0\nREASONING: The solution correctly reduces the problem to selecting a subset of paid painters whose total capacity (time[i] + 1 per paid painter) reaches at least n, which is the standard knapsack-like formulation, and the DP implements this correctly (capping at n). Edge cases (no paid painter not allowed, caps, bounds) are handled properly, and the algorithm will produce the minimal cost for all valid inputs within constraints.\n```",
+      "model": "gpt-5-mini"
     },
     {
       "task_id": "2848__8ofyXkJ",
@@ -51,33 +51,33 @@
       "passed_tests": 14,
       "total_tests": 14,
       "unit_test_status": "PASSED",
-      "reasoning": "The solution correctly implements a recursive dynamic programming approach with memoization to count the special permutations of the input array. It handles all edge cases, including the base case when all elements have been used, and checks the divisibility conditions correctly. Given the constraints and the logic used, it will pass all test cases.\n```",
-      "full_response": "```\nCORRECTNESS_SCORE: 1.0\nREASONING: The solution correctly implements a recursive dynamic programming approach with memoization to count the special permutations of the input array. It handles all edge cases, including the base case when all elements have been used, and checks the divisibility conditions correctly. Given the constraints and the logic used, it will pass all test cases.\n```",
-      "model": "gpt-4o-mini"
+      "reasoning": "The solution implements the standard bitmask + last-index DP to count Hamiltonian paths under the divisibility adjacency condition, correctly handling all permutations and using modulo arithmetic. Constraints (n <= 14) make the approach feasible, recursion depth and memoization are safe, and edge cases (distinct positives, n≥2) are correctly handled, so it should pass all tests.\n```",
+      "full_response": "```\nCORRECTNESS_SCORE: 1.0\nREASONING: The solution implements the standard bitmask + last-index DP to count Hamiltonian paths under the divisibility adjacency condition, correctly handling all permutations and using modulo arithmetic. Constraints (n <= 14) make the approach feasible, recursion depth and memoization are safe, and edge cases (distinct positives, n≥2) are correctly handled, so it should pass all tests.\n```",
+      "model": "gpt-5-mini"
     },
     {
       "task_id": "2850__QaP9G7a",
       "problem_title": "construct-the-longest-new-string",
-      "correctness_score": 0.8,
+      "correctness_score": 0.3,
       "actual_accuracy": 0.6428571428571429,
       "passed_tests": 9,
       "total_tests": 14,
       "unit_test_status": "FAILED",
-      "reasoning": "The algorithm generally follows a greedy approach to build the longest string while avoiding \"AAA\" and \"BBB\" substrings. However, it may fail in certain edge cases, particularly when the counts of \"AA\", \"BB\", and \"AB\" are balanced or when the last characters of the result string create a situation where adding more characters is not optimal. This could lead to suboptimal string lengths in specific configurations, thus the score reflects that it is mostly correct but not entirely foolproof.\n```",
-      "full_response": "```\nCORRECTNESS_SCORE: 0.8\nREASONING: The algorithm generally follows a greedy approach to build the longest string while avoiding \"AAA\" and \"BBB\" substrings. However, it may fail in certain edge cases, particularly when the counts of \"AA\", \"BB\", and \"AB\" are balanced or when the last characters of the result string create a situation where adding more characters is not optimal. This could lead to suboptimal string lengths in specific configurations, thus the score reflects that it is mostly correct but not entirely foolproof.\n```",
-      "model": "gpt-4o-mini"
+      "reasoning": "The greedy is incorrect: it never checks whether appending \"AB\" creates \"AAA\" or \"BBB\" (it only checks last char for \"AA\"/\"BB\"), so it can count blocks that cannot be legally placed and thus produce wrong maxima in many cases. While it may work on some simple inputs, the omitted checks and simplistic preference logic lead to incorrect answers on numerous nontrivial cases.",
+      "full_response": "CORRECTNESS_SCORE: 0.3\nREASONING: The greedy is incorrect: it never checks whether appending \"AB\" creates \"AAA\" or \"BBB\" (it only checks last char for \"AA\"/\"BB\"), so it can count blocks that cannot be legally placed and thus produce wrong maxima in many cases. While it may work on some simple inputs, the omitted checks and simplistic preference logic lead to incorrect answers on numerous nontrivial cases.",
+      "model": "gpt-5-mini"
     },
     {
       "task_id": "2857__t4yeANK",
       "problem_title": "total-distance-traveled",
-      "correctness_score": 1.0,
+      "correctness_score": -1.0,
       "actual_accuracy": 1.0,
       "passed_tests": 14,
       "total_tests": 14,
       "unit_test_status": "PASSED",
-      "reasoning": "The solution correctly implements the logic to calculate the maximum distance traveled based on the fuel consumption and transfer from the additional tank. It handles all edge cases, including when the main tank has less than 5 liters left and when the additional tank is empty. The output format is also correct, ensuring it meets the problem's requirements.\n```",
-      "full_response": "```\nCORRECTNESS_SCORE: 1.0\nREASONING: The solution correctly implements the logic to calculate the maximum distance traveled based on the fuel consumption and transfer from the additional tank. It handles all edge cases, including when the main tank has less than 5 liters left and when the additional tank is empty. The output format is also correct, ensuring it meets the problem's requirements.\n```",
-      "model": "gpt-4o-mini"
+      "reasoning": "Empty response from LLM model gpt-5-mini",
+      "full_response": "",
+      "model": "gpt-5-mini"
     }
   ]
 }

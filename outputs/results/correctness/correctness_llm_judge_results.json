@@ -1,12 +1,12 @@
 {
-  "model": "gpt-4o-mini",
+  "model": "gpt-5-mini",
   "evaluation_type": "correctness_only",
   "metrics": {
-    "correlation": 0.1122294041279101,
-    "mae": 0.14874702035898582,
-    "rmse": 0.2493544198677762,
-    "binary_accuracy": 0.9571428571428572,
-    "avg_correctness_score": 0.8614285714285715,
+    "correlation": 0.41327931276755747,
+    "mae": 0.20556714375718232,
+    "rmse": 0.3877854014650456,
+    "binary_accuracy": 0.7285714285714285,
+    "avg_correctness_score": 0.7471428571428572,
     "avg_actual_accuracy": 0.9126414250826157,
     "n_valid": 70,
     "n_total": 70,
@@ -22,14 +22,14 @@
     {
       "task_id": "1873_d__ewd5mxi",
       "problem_title": "D. 1D Eraser",
-      "correctness_score": 0.6,
+      "correctness_score": 1.0,
       "actual_accuracy": 1.0,
       "passed_tests": 13,
       "total_tests": 13,
       "unit_test_status": "PASSED",
-      "reasoning": "The logic in the solution attempts to cover black cells but fails to account for overlapping operations correctly. Specifically, it does not handle cases where multiple black cells are adjacent and can be covered in a single operation effectively, leading to potentially incorrect counts of operations. Additionally, the approach does not skip over already white cells efficiently, which could lead to unnecessary iterations and incorrect results in some edge cases.\n```",
-      "full_response": "```\nCORRECTNESS_SCORE: 0.6\nREASONING: The logic in the solution attempts to cover black cells but fails to account for overlapping operations correctly. Specifically, it does not handle cases where multiple black cells are adjacent and can be covered in a single operation effectively, leading to potentially incorrect counts of operations. Additionally, the approach does not skip over already white cells efficiently, which could lead to unnecessary iterations and incorrect results in some edge cases.\n```",
-      "model": "gpt-4o-mini"
+      "reasoning": "The greedy is correct: on encountering a 'B' it whites the next k cells (making further blacks in that range unreachable) which is equivalent to the standard optimal strategy; the implementation correctly handles edge cases (all W, k=n, etc.) and runs in O(n) per test overall. The input/output format is correct, so it will pass all test cases.",
+      "full_response": "CORRECTNESS_SCORE: 1.0\nREASONING: The greedy is correct: on encountering a 'B' it whites the next k cells (making further blacks in that range unreachable) which is equivalent to the standard optimal strategy; the implementation correctly handles edge cases (all W, k=n, etc.) and runs in O(n) per test overall. The input/output format is correct, so it will pass all test cases.",
+      "model": "gpt-5-mini"
     },
     {
       "task_id": "2808__j8QEgJL",
@@ -39,9 +39,9 @@
       "passed_tests": 14,
       "total_tests": 14,
       "unit_test_status": "PASSED",
-      "reasoning": "The solution correctly implements a dynamic programming approach to minimize the cost of painting all walls while considering the constraints of using both paid and free painters. It accurately updates the state of painted walls and costs, ensuring that all edge cases, such as when the free painter can be utilized, are handled properly. Given the problem constraints and the logic applied, the solution should pass all test cases.\n```",
-      "full_response": "```\nCORRECTNESS_SCORE: 1.0\nREASONING: The solution correctly implements a dynamic programming approach to minimize the cost of painting all walls while considering the constraints of using both paid and free painters. It accurately updates the state of painted walls and costs, ensuring that all edge cases, such as when the free painter can be utilized, are handled properly. Given the problem constraints and the logic applied, the solution should pass all test cases.\n```",
-      "model": "gpt-4o-mini"
+      "reasoning": "The DP treats each chosen paid wall as contributing 1 (the paid wall itself) plus time[i] free-paint units, so it exactly models the requirement paid_count + sum(time) >= n and finds the minimum cost subset meeting that. The implementation correctly caps at n, handles zero/large times, and iterates each wall once, so it will produce correct results for all valid inputs within the constraints.",
+      "full_response": "CORRECTNESS_SCORE: 1.0\nREASONING: The DP treats each chosen paid wall as contributing 1 (the paid wall itself) plus time[i] free-paint units, so it exactly models the requirement paid_count + sum(time) >= n and finds the minimum cost subset meeting that. The implementation correctly caps at n, handles zero/large times, and iterates each wall once, so it will produce correct results for all valid inputs within the constraints.",
+      "model": "gpt-5-mini"
     },
     {
       "task_id": "2848__8ofyXkJ",
@@ -51,21 +51,21 @@
       "passed_tests": 14,
       "total_tests": 14,
       "unit_test_status": "PASSED",
-      "reasoning": "The solution correctly implements a dynamic programming approach with memoization to count the special permutations based on the divisibility condition. It handles all edge cases, including the minimum and maximum constraints of the input size and values, and produces the correct output format. Given the problem constraints, this solution will pass all test cases.\n```",
-      "full_response": "```\nCORRECTNESS_SCORE: 1.0\nREASONING: The solution correctly implements a dynamic programming approach with memoization to count the special permutations based on the divisibility condition. It handles all edge cases, including the minimum and maximum constraints of the input size and values, and produces the correct output format. Given the problem constraints, this solution will pass all test cases.\n```",
-      "model": "gpt-4o-mini"
+      "reasoning": "The solution correctly implements a bitmask DP over last index that enforces the divisibility constraint between adjacent elements, handles distinct positive integers and uses modulo arithmetic. Complexity and recursion depth are within constraints (n <= 14), so it will produce correct counts for all valid inputs.",
+      "full_response": "CORRECTNESS_SCORE: 1.0\nREASONING: The solution correctly implements a bitmask DP over last index that enforces the divisibility constraint between adjacent elements, handles distinct positive integers and uses modulo arithmetic. Complexity and recursion depth are within constraints (n <= 14), so it will produce correct counts for all valid inputs.",
+      "model": "gpt-5-mini"
     },
     {
       "task_id": "2850__QaP9G7a",
       "problem_title": "construct-the-longest-new-string",
-      "correctness_score": 0.8,
+      "correctness_score": 0.2,
       "actual_accuracy": 0.6428571428571429,
       "passed_tests": 9,
       "total_tests": 14,
       "unit_test_status": "FAILED",
-      "reasoning": "The algorithm generally follows a greedy approach to construct the longest string while avoiding \"AAA\" and \"BBB\" substrings. However, it may fail in certain edge cases where the counts of \"AA\", \"BB\", and \"AB\" are balanced or when the last characters of the constructed string lead to a situation where adding the next string type is not optimal. For example, it may not handle cases where the last two characters are \"AB\" or \"BA\" effectively, leading to suboptimal string lengths.\n```",
-      "full_response": "```\nCORRECTNESS_SCORE: 0.8\nREASONING: The algorithm generally follows a greedy approach to construct the longest string while avoiding \"AAA\" and \"BBB\" substrings. However, it may fail in certain edge cases where the counts of \"AA\", \"BB\", and \"AB\" are balanced or when the last characters of the constructed string lead to a situation where adding the next string type is not optimal. For example, it may not handle cases where the last two characters are \"AB\" or \"BA\" effectively, leading to suboptimal string lengths.\n```",
-      "model": "gpt-4o-mini"
+      "reasoning": "The solution fails to check that appending \"AB\" can itself create \"AAA\" or \"BBB\" (it only checks AA/BB), so it can build invalid strings and thus return incorrect maximum lengths; its greedy preference between AA and BB also ignores optimal uses of AB separators, causing suboptimal choices. While it may pass some simple cases, these logical flaws will make it fail a large portion of tests.",
+      "full_response": "CORRECTNESS_SCORE: 0.2\nREASONING: The solution fails to check that appending \"AB\" can itself create \"AAA\" or \"BBB\" (it only checks AA/BB), so it can build invalid strings and thus return incorrect maximum lengths; its greedy preference between AA and BB also ignores optimal uses of AB separators, causing suboptimal choices. While it may pass some simple cases, these logical flaws will make it fail a large portion of tests.",
+      "model": "gpt-5-mini"
     },
     {
       "task_id": "2857__t4yeANK",
@@ -75,9 +75,9 @@
       "passed_tests": 14,
       "total_tests": 14,
       "unit_test_status": "PASSED",
-      "reasoning": "The solution correctly implements the logic to calculate the maximum distance traveled based on the fuel consumption rules provided in the problem statement. It handles edge cases, such as when the main tank has less than 5 liters left, and correctly transfers fuel from the additional tank when applicable. All constraints and conditions are satisfied, ensuring that it will pass all test cases.\n```",
-      "full_response": "```\nCORRECTNESS_SCORE: 1.0\nREASONING: The solution correctly implements the logic to calculate the maximum distance traveled based on the fuel consumption rules provided in the problem statement. It handles edge cases, such as when the main tank has less than 5 liters left, and correctly transfers fuel from the additional tank when applicable. All constraints and conditions are satisfied, ensuring that it will pass all test cases.\n```",
-      "model": "gpt-4o-mini"
+      "reasoning": "The implementation correctly simulates the process: it repeatedly consumes 5 liters from the main tank, triggers a 1-liter transfer from the additional tank when available, and finally consumes any remainder; distance accounting (10 km per liter) is correct. The logic handles all edge cases within the given constraints (1..100) and matches the problem specification, so it will pass all test cases.",
+      "full_response": "CORRECTNESS_SCORE: 1.0\nREASONING: The implementation correctly simulates the process: it repeatedly consumes 5 liters from the main tank, triggers a 1-liter transfer from the additional tank when available, and finally consumes any remainder; distance accounting (10 km per liter) is correct. The logic handles all edge cases within the given constraints (1..100) and matches the problem specification, so it will pass all test cases.",
+      "model": "gpt-5-mini"
     },
     {
       "task_id": "2954__6ArY926",
@@ -87,9 +87,9 @@
       "passed_tests": 15,
       "total_tests": 15,
       "unit_test_status": "PASSED",
-      "reasoning": "The solution correctly implements a sliding window approach to find the maximum sum of almost unique subarrays of length k that contain at least m distinct elements. It handles edge cases, such as when the length of nums is less than k, and correctly maintains the frequency of elements in the current window. The logic is sound and should pass all test cases as described in the problem statement.\n```",
-      "full_response": "```\nCORRECTNESS_SCORE: 1.0\nREASONING: The solution correctly implements a sliding window approach to find the maximum sum of almost unique subarrays of length k that contain at least m distinct elements. It handles edge cases, such as when the length of nums is less than k, and correctly maintains the frequency of elements in the current window. The logic is sound and should pass all test cases as described in the problem statement.\n```",
-      "model": "gpt-4o-mini"
+      "reasoning": "The solution correctly uses a sliding window with a frequency map to maintain distinct counts and window sums, handling the initial window and subsequent updates properly. It respects constraints (m <= k, nums[i] >= 1) and returns 0 when no window qualifies, so it will pass all valid test cases.\n```",
+      "full_response": "```\nCORRECTNESS_SCORE: 1.0\nREASONING: The solution correctly uses a sliding window with a frequency map to maintain distinct counts and window sums, handling the initial window and subsequent updates properly. It respects constraints (m <= k, nums[i] >= 1) and returns 0 when no window qualifies, so it will pass all valid test cases.\n```",
+      "model": "gpt-5-mini"
     },
     {
       "task_id": "2955__Jzk6BRF",
@@ -99,9 +99,9 @@
       "passed_tests": 14,
       "total_tests": 14,
       "unit_test_status": "PASSED",
-      "reasoning": "The solution correctly calculates the nearest multiple of 10 for any given purchase amount, adhering to the problem's requirements. It handles all edge cases, including when the purchase amount is 0 or 100, and correctly returns the updated account balance after the rounded purchase. All specified test cases will pass as the logic is sound and comprehensive.\n```",
-      "full_response": "```\nCORRECTNESS_SCORE: 1.0\nREASONING: The solution correctly calculates the nearest multiple of 10 for any given purchase amount, adhering to the problem's requirements. It handles all edge cases, including when the purchase amount is 0 or 100, and correctly returns the updated account balance after the rounded purchase. All specified test cases will pass as the logic is sound and comprehensive.\n```",
-      "model": "gpt-4o-mini"
+      "reasoning": "The implementation correctly computes the nearest multiples (lower and upper), measures distances, and chooses the upper on ties per the specification; it handles boundary cases like 0 and 100 correctly and returns 100 - rounded_amount. All constraints are respected, so it will pass all test cases.",
+      "full_response": "CORRECTNESS_SCORE: 1.0\nREASONING: The implementation correctly computes the nearest multiples (lower and upper), measures distances, and chooses the upper on ties per the specification; it handles boundary cases like 0 and 100 correctly and returns 100 - rounded_amount. All constraints are respected, so it will pass all test cases.",
+      "model": "gpt-5-mini"
     },
     {
       "task_id": "3034__VWYjL7t",
@@ -111,21 +111,21 @@
       "passed_tests": 14,
       "total_tests": 14,
       "unit_test_status": "PASSED",
-      "reasoning": "The solution correctly identifies all integer points covered by the cars by using a set to store unique points from the start to the end of each car's range. It handles all edge cases, including overlapping intervals and the maximum constraints specified in the problem. The output format is also correct, returning the count of unique points as required.\n```",
-      "full_response": "```\nCORRECTNESS_SCORE: 1.0\nREASONING: The solution correctly identifies all integer points covered by the cars by using a set to store unique points from the start to the end of each car's range. It handles all edge cases, including overlapping intervals and the maximum constraints specified in the problem. The output format is also correct, returning the count of unique points as required.\n```",
-      "model": "gpt-4o-mini"
+      "reasoning": "The solution correctly computes the union of integer points covered by inclusive intervals by inserting each integer in each interval into a set and returning its size. Given the problem constraints (small bounds, guaranteed start_i <= end_i), this approach handles overlaps, single-point intervals, and all edge cases correctly.\n```",
+      "full_response": "```\nCORRECTNESS_SCORE: 1.0\nREASONING: The solution correctly computes the union of integer points covered by inclusive intervals by inserting each integer in each interval into a set and returning its size. Given the problem constraints (small bounds, guaranteed start_i <= end_i), this approach handles overlaps, single-point intervals, and all edge cases correctly.\n```",
+      "model": "gpt-5-mini"
     },
     {
       "task_id": "3046__yzLidf9",
       "problem_title": "minimum-operations-to-make-a-special-number",
-      "correctness_score": 0.9,
+      "correctness_score": 1.0,
       "actual_accuracy": 1.0,
       "passed_tests": 15,
       "total_tests": 15,
       "unit_test_status": "PASSED",
-      "reasoning": "The solution correctly identifies the valid endings for a number to be divisible by 25 and calculates the minimum number of deletions needed to achieve those endings. However, it may fail in edge cases where the digits are arranged in such a way that the optimal deletions are not considered, particularly when multiple valid endings exist or when the number contains only one of the required digits. Overall, it handles most cases well but has potential gaps in edge case handling.\n```",
-      "full_response": "```\nCORRECTNESS_SCORE: 0.9\nREASONING: The solution correctly identifies the valid endings for a number to be divisible by 25 and calculates the minimum number of deletions needed to achieve those endings. However, it may fail in edge cases where the digits are arranged in such a way that the optimal deletions are not considered, particularly when multiple valid endings exist or when the number contains only one of the required digits. Overall, it handles most cases well but has potential gaps in edge case handling.\n```",
-      "model": "gpt-4o-mini"
+      "reasoning": "The solution correctly considers all valid endings (\"00\",\"25\",\"50\",\"75\") and computes minimal deletions by finding a rightmost second-digit and the nearest first-digit before it (which is sufficient because any valid pair must have the first before the rightmost occurrence of the second). It also handles the single-'0' case and the delete-all case, so it will produce correct minimal deletion counts for all inputs under the problem constraints.",
+      "full_response": "CORRECTNESS_SCORE: 1.0\nREASONING: The solution correctly considers all valid endings (\"00\",\"25\",\"50\",\"75\") and computes minimal deletions by finding a rightmost second-digit and the nearest first-digit before it (which is sufficient because any valid pair must have the first before the rightmost occurrence of the second). It also handles the single-'0' case and the delete-all case, so it will produce correct minimal deletion counts for all inputs under the problem constraints.",
+      "model": "gpt-5-mini"
     },
     {
       "task_id": "3163__pTpMYtw",
@@ -135,9 +135,9 @@
       "passed_tests": 14,
       "total_tests": 14,
       "unit_test_status": "PASSED",
-      "reasoning": "The solution correctly calculates the sum of the squares of distinct counts for all subarrays by iterating through each possible subarray and maintaining a set of distinct elements. It handles all edge cases, including arrays with repeated elements and varying lengths, and adheres to the problem constraints. The logic is sound and will pass all test cases as demonstrated in the provided examples.\n```",
-      "full_response": "```\nCORRECTNESS_SCORE: 1.0\nREASONING: The solution correctly calculates the sum of the squares of distinct counts for all subarrays by iterating through each possible subarray and maintaining a set of distinct elements. It handles all edge cases, including arrays with repeated elements and varying lengths, and adheres to the problem constraints. The logic is sound and will pass all test cases as demonstrated in the provided examples.\n```",
-      "model": "gpt-4o-mini"
+      "reasoning": "The solution explicitly iterates all subarrays, maintaining a set of distinct elements for each start index and adding the square of the distinct count for each subarray, which correctly computes the required sum. Given the problem constraints (n <= 100), this O(n^2) approach is sufficient and handles edge cases (including minimal length) correctly.",
+      "full_response": "CORRECTNESS_SCORE: 1.0\nREASONING: The solution explicitly iterates all subarrays, maintaining a set of distinct elements for each start index and adding the square of the distinct count for each subarray, which correctly computes the required sum. Given the problem constraints (n <= 100), this O(n^2) approach is sufficient and handles edge cases (including minimal length) correctly.",
+      "model": "gpt-5-mini"
     },
     {
       "task_id": "3193__oG74Rb4",
@@ -147,9 +147,9 @@
       "passed_tests": 15,
       "total_tests": 15,
       "unit_test_status": "PASSED",
-      "reasoning": "The solution correctly implements the logic to find the maximum XOR value among all strong pairs as defined in the problem statement. It checks all pairs, including the same element twice, and accurately applies the condition for strong pairs. Given the constraints, the algorithm will handle all edge cases and produce the correct output for all possible inputs.\n```",
-      "full_response": "```\nCORRECTNESS_SCORE: 1.0\nREASONING: The solution correctly implements the logic to find the maximum XOR value among all strong pairs as defined in the problem statement. It checks all pairs, including the same element twice, and accurately applies the condition for strong pairs. Given the constraints, the algorithm will handle all edge cases and produce the correct output for all possible inputs.\n```",
-      "model": "gpt-4o-mini"
+      "reasoning": "The solution correctly implements the strong-pair condition |x-y| <= min(x,y), considers all pairs including identical-element pairs, and computes the maximum XOR. Given the problem constraints (n <= 50, nums[i] <= 100), the O(n^2) brute-force approach is sufficient and covers all edge cases, so it will pass all tests.",
+      "full_response": "CORRECTNESS_SCORE: 1.0\nREASONING: The solution correctly implements the strong-pair condition |x-y| <= min(x,y), considers all pairs including identical-element pairs, and computes the maximum XOR. Given the problem constraints (n <= 50, nums[i] <= 100), the O(n^2) brute-force approach is sufficient and covers all edge cases, so it will pass all tests.",
+      "model": "gpt-5-mini"
     },
     {
       "task_id": "3194__XQwBn3k",
@@ -159,9 +159,9 @@
       "passed_tests": 15,
       "total_tests": 15,
       "unit_test_status": "PASSED",
-      "reasoning": "The solution correctly implements the logic to find indices of words containing the specified character `x`. It handles all given test cases, including edge cases such as when `x` does not appear in any words, and adheres to the input constraints. The output format is also correct, returning a list of indices as required.\n```",
-      "full_response": "```\nCORRECTNESS_SCORE: 1.0\nREASONING: The solution correctly implements the logic to find indices of words containing the specified character `x`. It handles all given test cases, including edge cases such as when `x` does not appear in any words, and adheres to the input constraints. The output format is also correct, returning a list of indices as required.\n```",
-      "model": "gpt-4o-mini"
+      "reasoning": "The implementation correctly iterates through words and appends indices where x is found using the Python \"in\" operator, matching the problem requirements and examples. It handles edge cases (no occurrences -> empty list) and respects input constraints, so it will pass all valid test cases.\n```",
+      "full_response": "```\nCORRECTNESS_SCORE: 1.0\nREASONING: The implementation correctly iterates through words and appends indices where x is found using the Python \"in\" operator, matching the problem requirements and examples. It handles edge cases (no occurrences -> empty list) and respects input constraints, so it will pass all valid test cases.\n```",
+      "model": "gpt-5-mini"
     },
     {
       "task_id": "3195__W7QjK22",
@@ -171,9 +171,9 @@
       "passed_tests": 15,
       "total_tests": 15,
       "unit_test_status": "PASSED",
-      "reasoning": "The solution correctly implements the logic to count the number of swaps needed to group all black balls (1s) to the right and all white balls (0s) to the left. It accurately counts the number of 1s encountered and calculates the necessary swaps for each 0, ensuring it handles all edge cases, including strings that are already sorted or contain only one type of ball. The algorithm adheres to the problem constraints and produces the correct output format.\n```",
-      "full_response": "```\nCORRECTNESS_SCORE: 1.0\nREASONING: The solution correctly implements the logic to count the number of swaps needed to group all black balls (1s) to the right and all white balls (0s) to the left. It accurately counts the number of 1s encountered and calculates the necessary swaps for each 0, ensuring it handles all edge cases, including strings that are already sorted or contain only one type of ball. The algorithm adheres to the problem constraints and produces the correct output format.\n```",
-      "model": "gpt-4o-mini"
+      "reasoning": "The solution correctly computes the number of inversions (each '1' before a '0') by summing, for each 0, the count of 1s to its left; each inversion requires one adjacent swap, so this yields the minimal steps. It handles all valid inputs (including all-0 or all-1 strings) and respects constraints and integer sizes, so it will pass all test cases.",
+      "full_response": "CORRECTNESS_SCORE: 1.0\nREASONING: The solution correctly computes the number of inversions (each '1' before a '0') by summing, for each 0, the count of 1s to its left; each inversion requires one adjacent swap, so this yields the minimal steps. It handles all valid inputs (including all-0 or all-1 strings) and respects constraints and integer sizes, so it will pass all test cases.",
+      "model": "gpt-5-mini"
     },
     {
       "task_id": "3199__cnxo4t4",
@@ -183,9 +183,9 @@
       "passed_tests": 14,
       "total_tests": 14,
       "unit_test_status": "PASSED",
-      "reasoning": "The solution correctly implements a nested loop to iterate through all possible distributions of candies to the first two children, ensuring that the third child's allocation is valid and within the specified limit. It handles all edge cases, including when the total number of candies is less than or equal to the limit, and produces the correct output format as required by the problem statement. Thus, it will pass all test cases.\n```",
-      "full_response": "```\nCORRECTNESS_SCORE: 1.0\nREASONING: The solution correctly implements a nested loop to iterate through all possible distributions of candies to the first two children, ensuring that the third child's allocation is valid and within the specified limit. It handles all edge cases, including when the total number of candies is less than or equal to the limit, and produces the correct output format as required by the problem statement. Thus, it will pass all test cases.\n```",
-      "model": "gpt-4o-mini"
+      "reasoning": "The implementation correctly enumerates all ordered triples (a,b,c) with a,b,c >= 0, a+b+c = n and each <= limit by bounding a and b and checking c<=limit; it handles edge cases (limit >= n, small n) correctly and returns the expected counts. Given the constraints (n, limit <= 50) the approach is exact and will pass all test cases.",
+      "full_response": "CORRECTNESS_SCORE: 1.0\nREASONING: The implementation correctly enumerates all ordered triples (a,b,c) with a,b,c >= 0, a+b+c = n and each <= limit by bounding a and b and checking c<=limit; it handles edge cases (limit >= n, small n) correctly and returns the expected counts. Given the constraints (n, limit <= 50) the approach is exact and will pass all test cases.",
+      "model": "gpt-5-mini"
     },
     {
       "task_id": "3206__HjXvuXd",
@@ -195,45 +195,45 @@
       "passed_tests": 14,
       "total_tests": 14,
       "unit_test_status": "PASSED",
-      "reasoning": "The solution correctly identifies the common elements between the two arrays by utilizing sets for efficient lookups. It accurately counts the indices in both arrays where elements occur in the other array, handling all specified cases and constraints without any edge case issues. The output format is also correct, returning a list of two integers as required.\n```",
-      "full_response": "```\nCORRECTNESS_SCORE: 1.0\nREASONING: The solution correctly identifies the common elements between the two arrays by utilizing sets for efficient lookups. It accurately counts the indices in both arrays where elements occur in the other array, handling all specified cases and constraints without any edge case issues. The output format is also correct, returning a list of two integers as required.\n```",
-      "model": "gpt-4o-mini"
+      "reasoning": "The solution correctly computes membership using sets for O(1) lookup and sums over indices so duplicates are counted per index as required. It matches the problem specification and examples, handles edge cases (including empty overlap and duplicates), and returns the correct output format.",
+      "full_response": "CORRECTNESS_SCORE: 1.0\nREASONING: The solution correctly computes membership using sets for O(1) lookup and sums over indices so duplicates are counted per index as required. It matches the problem specification and examples, handles edge cases (including empty overlap and duplicates), and returns the correct output format.",
+      "model": "gpt-5-mini"
     },
     {
       "task_id": "3299__wHBcVwf",
       "problem_title": "find-the-maximum-number-of-elements-in-subset",
-      "correctness_score": 0.8,
+      "correctness_score": 0.6,
       "actual_accuracy": 1.0,
       "passed_tests": 14,
       "total_tests": 14,
       "unit_test_status": "PASSED",
-      "reasoning": "The solution correctly implements the logic to find the maximum subset length that follows the specified pattern. However, it may fail in edge cases where the powers of the base exceed the maximum allowed value or when the frequency of certain numbers is not handled properly, particularly for larger inputs. Overall, it handles most cases well but may struggle with specific edge cases, leading to a score of 0.8.\n```",
-      "full_response": "```\nCORRECTNESS_SCORE: 0.8\nREASONING: The solution correctly implements the logic to find the maximum subset length that follows the specified pattern. However, it may fail in edge cases where the powers of the base exceed the maximum allowed value or when the frequency of certain numbers is not handled properly, particularly for larger inputs. Overall, it handles most cases well but may struggle with specific edge cases, leading to a score of 0.8.\n```",
-      "model": "gpt-4o-mini"
+      "reasoning": "The approach of building chains x, x^2, x^4,... and checking frequencies is largely correct and will handle most cases, but there is a critical bug in the special-case handling for x == 1 (it can produce a length greater than available ones) and some awkward early checks that may prematurely truncate chains. These issues will cause incorrect results on tests involving multiple 1s and some edge cases, so the solution is not fully correct.",
+      "full_response": "CORRECTNESS_SCORE: 0.6\nREASONING: The approach of building chains x, x^2, x^4,... and checking frequencies is largely correct and will handle most cases, but there is a critical bug in the special-case handling for x == 1 (it can produce a length greater than available ones) and some awkward early checks that may prematurely truncate chains. These issues will cause incorrect results on tests involving multiple 1s and some edge cases, so the solution is not fully correct.",
+      "model": "gpt-5-mini"
     },
     {
       "task_id": "3308__j6WWyFj",
       "problem_title": "apply-operations-to-make-string-empty",
-      "correctness_score": 0.6,
+      "correctness_score": 1.0,
       "actual_accuracy": 0.9285714285714286,
       "passed_tests": 13,
       "total_tests": 14,
       "unit_test_status": "FAILED",
-      "reasoning": "The logic of the solution is flawed because it only considers characters with the maximum frequency, which may not accurately represent the string just before the last operation. For example, in the case of \"aabcbbca\", the output would incorrectly be \"bc\" instead of \"ba\". Additionally, it does not handle cases where multiple characters have the same maximum frequency properly, potentially leading to incorrect ordering in the output. Thus, it is likely to fail several edge cases.\n```",
-      "full_response": "```\nCORRECTNESS_SCORE: 0.6\nREASONING: The logic of the solution is flawed because it only considers characters with the maximum frequency, which may not accurately represent the string just before the last operation. For example, in the case of \"aabcbbca\", the output would incorrectly be \"bc\" instead of \"ba\". Additionally, it does not handle cases where multiple characters have the same maximum frequency properly, potentially leading to incorrect ordering in the output. Thus, it is likely to fail several edge cases.\n```",
-      "model": "gpt-4o-mini"
+      "reasoning": "The solution correctly reasons that only characters with maximum frequency remain before the final operation and that the remaining occurrence for each such character is its last occurrence in the original string, so returning those characters ordered by their last indices is correct. It handles all constraints (non-empty lowercase string) and edge cases (single-character, all-same, ties) and will produce the correct output.",
+      "full_response": "CORRECTNESS_SCORE: 1.0\nREASONING: The solution correctly reasons that only characters with maximum frequency remain before the final operation and that the remaining occurrence for each such character is its last occurrence in the original string, so returning those characters ordered by their last indices is correct. It handles all constraints (non-empty lowercase string) and edge cases (single-character, all-same, ties) and will produce the correct output.",
+      "model": "gpt-5-mini"
     },
     {
       "task_id": "3320__2Z2rAHQ",
       "problem_title": "maximum-number-of-operations-with-the-same-score-i",
-      "correctness_score": 0.5,
+      "correctness_score": 1.0,
       "actual_accuracy": 1.0,
       "passed_tests": 14,
       "total_tests": 14,
       "unit_test_status": "PASSED",
-      "reasoning": "The solution only checks for pairs starting from the beginning of the list and assumes that the first two elements' sum is the only valid score for all operations. This logic fails for cases where other pairs can also yield the same score after the first operation, leading to incorrect results. For example, in the input [3, 2, 1, 4, 5], the solution would incorrectly return 1 instead of 2, as it does not consider the possibility of achieving the target score with different pairs later in the list.\n```",
-      "full_response": "```\nCORRECTNESS_SCORE: 0.5\nREASONING: The solution only checks for pairs starting from the beginning of the list and assumes that the first two elements' sum is the only valid score for all operations. This logic fails for cases where other pairs can also yield the same score after the first operation, leading to incorrect results. For example, in the input [3, 2, 1, 4, 5], the solution would incorrectly return 1 instead of 2, as it does not consider the possibility of achieving the target score with different pairs later in the list.\n```",
-      "model": "gpt-4o-mini"
+      "reasoning": "The code correctly fixes the target score as the sum of the initial first two elements and then counts how many consecutive non-overlapping prefix pairs (0-1, 2-3, 4-5, ...) have that same sum, which exactly matches the operation rules. It handles odd/even lengths and all input constraints, so it will pass all valid test cases.",
+      "full_response": "CORRECTNESS_SCORE: 1.0\nREASONING: The code correctly fixes the target score as the sum of the initial first two elements and then counts how many consecutive non-overlapping prefix pairs (0-1, 2-3, 4-5, ...) have that same sum, which exactly matches the operation rules. It handles odd/even lengths and all input constraints, so it will pass all valid test cases.",
+      "model": "gpt-5-mini"
     },
     {
       "task_id": "3353__GCSJoMW",
@@ -243,33 +243,33 @@
       "passed_tests": 14,
       "total_tests": 14,
       "unit_test_status": "PASSED",
-      "reasoning": "The solution correctly identifies if any substring of length 2 in the string `s` is also present in its reverse. It handles all edge cases, including strings of length 1 and 2, and correctly returns true for cases where such substrings exist and false otherwise. The logic is sound and adheres to the problem constraints.\n```",
-      "full_response": "```\nCORRECTNESS_SCORE: 1.0\nREASONING: The solution correctly identifies if any substring of length 2 in the string `s` is also present in its reverse. It handles all edge cases, including strings of length 1 and 2, and correctly returns true for cases where such substrings exist and false otherwise. The logic is sound and adheres to the problem constraints.\n```",
-      "model": "gpt-4o-mini"
+      "reasoning": "The implementation directly checks each length-2 substring of s for membership in s[::-1], which exactly matches the problem requirement (t in s and in reverse(s)). It handles edge cases (e.g., length 1 returns False) and meets constraints, so it will pass all valid test cases.",
+      "full_response": "CORRECTNESS_SCORE: 1.0\nREASONING: The implementation directly checks each length-2 substring of s for membership in s[::-1], which exactly matches the problem requirement (t in s and in reverse(s)). It handles edge cases (e.g., length 1 returns False) and meets constraints, so it will pass all valid test cases.",
+      "model": "gpt-5-mini"
     },
     {
       "task_id": "3360__vvHZMV2",
       "problem_title": "minimum-deletions-to-make-string-k-special",
-      "correctness_score": 0.9,
+      "correctness_score": 1.0,
       "actual_accuracy": 1.0,
       "passed_tests": 28,
       "total_tests": 28,
       "unit_test_status": "PASSED",
-      "reasoning": "The solution correctly implements the logic to determine the minimum deletions required to make the string k-special by iterating through possible minimum frequencies. However, it may not handle edge cases where the input string is empty or contains only one unique character correctly, which could lead to minor issues in those specific scenarios. Overall, it should pass the majority of typical test cases.\n```",
-      "full_response": "```\nCORRECTNESS_SCORE: 0.9\nREASONING: The solution correctly implements the logic to determine the minimum deletions required to make the string k-special by iterating through possible minimum frequencies. However, it may not handle edge cases where the input string is empty or contains only one unique character correctly, which could lead to minor issues in those specific scenarios. Overall, it should pass the majority of typical test cases.\n```",
-      "model": "gpt-4o-mini"
+      "reasoning": "The solution correctly enumerates the possible minimum frequency m among kept characters and for each m deletes any character with count < m (must be removed) and truncates counts > m+k down to m+k, taking the best total deletions. This covers all feasible final distributions and handles edge cases (empty string, large k) within constraints, so it should pass all tests.",
+      "full_response": "CORRECTNESS_SCORE: 1.0\nREASONING: The solution correctly enumerates the possible minimum frequency m among kept characters and for each m deletes any character with count < m (must be removed) and truncates counts > m+k down to m+k, taking the best total deletions. This covers all feasible final distributions and handles edge cases (empty string, large k) within constraints, so it should pass all tests.",
+      "model": "gpt-5-mini"
     },
     {
       "task_id": "3387__F5y3sWw",
       "problem_title": "minimum-operations-to-make-median-of-array-equal-to-k",
-      "correctness_score": 0.8,
+      "correctness_score": 1.0,
       "actual_accuracy": 1.0,
       "passed_tests": 28,
       "total_tests": 28,
       "unit_test_status": "PASSED",
-      "reasoning": "The solution correctly identifies the median and calculates the number of operations needed to adjust the median to k. However, it fails to account for cases where adjusting the median affects the overall median of the array, particularly in scenarios with even-length arrays or when multiple elements need adjustment. This could lead to incorrect results in edge cases where the median position needs to be recalculated after changes.\n```",
-      "full_response": "```\nCORRECTNESS_SCORE: 0.8\nREASONING: The solution correctly identifies the median and calculates the number of operations needed to adjust the median to k. However, it fails to account for cases where adjusting the median affects the overall median of the array, particularly in scenarios with even-length arrays or when multiple elements need adjustment. This could lead to incorrect results in edge cases where the median position needs to be recalculated after changes.\n```",
-      "model": "gpt-4o-mini"
+      "reasoning": "The solution implements the standard correct approach: sort, pick the upper-middle index as the median (n//2), and sum only the necessary decreases of elements left of the median that are >k and the necessary increases of elements right of the median that are <k (counting the median itself once). This handles odd/even lengths correctly, respects constraints, and yields the minimal number of +/-1 operations.",
+      "full_response": "CORRECTNESS_SCORE: 1.0\nREASONING: The solution implements the standard correct approach: sort, pick the upper-middle index as the median (n//2), and sum only the necessary decreases of elements left of the median that are >k and the necessary increases of elements right of the median that are <k (counting the median itself once). This handles odd/even lengths correctly, respects constraints, and yields the minimal number of +/-1 operations.",
+      "model": "gpt-5-mini"
     },
     {
       "task_id": "3450__Qpo95Xs",
@@ -279,33 +279,33 @@
       "passed_tests": 38,
       "total_tests": 38,
       "unit_test_status": "PASSED",
-      "reasoning": "The solution correctly calculates the position of the child holding the ball after k seconds by leveraging the cyclical nature of the ball passing. It accurately handles the direction changes at the ends of the queue and correctly computes the position using modular arithmetic. All edge cases, including the minimum and maximum values for n and k, are properly addressed.\n```",
-      "full_response": "```\nCORRECTNESS_SCORE: 1.0\nREASONING: The solution correctly calculates the position of the child holding the ball after k seconds by leveraging the cyclical nature of the ball passing. It accurately handles the direction changes at the ends of the queue and correctly computes the position using modular arithmetic. All edge cases, including the minimum and maximum values for n and k, are properly addressed.\n```",
-      "model": "gpt-4o-mini"
+      "reasoning": "The solution correctly models the back-and-forth motion using a cycle of length 2*(n-1) and maps k to a position within that cycle, returning the correct index for both the forward and reversed phases (including edge cases like n=2). All constraints (n>=2, k>=1) are handled, so it will pass all test cases.",
+      "full_response": "CORRECTNESS_SCORE: 1.0\nREASONING: The solution correctly models the back-and-forth motion using a cycle of length 2*(n-1) and maps k to a position within that cycle, returning the correct index for both the forward and reversed phases (including edge cases like n=2). All constraints (n>=2, k>=1) are handled, so it will pass all test cases.",
+      "model": "gpt-5-mini"
     },
     {
       "task_id": "3455__HPapPqp",
       "problem_title": "minimum-length-of-string-after-operations",
-      "correctness_score": 0.6,
+      "correctness_score": 0.0,
       "actual_accuracy": 1.0,
       "passed_tests": 37,
       "total_tests": 37,
       "unit_test_status": "PASSED",
-      "reasoning": "The logic presented in the solution is incomplete and does not fully capture the requirements of the problem. While it attempts to use a stack-based approach to track character counts, it fails to correctly handle cases where multiple operations can be performed on the same character, leading to incorrect results for certain inputs. For example, it may not properly account for scenarios where multiple triplet removals are possible, resulting in incorrect final string lengths.\n```",
-      "full_response": "```\nCORRECTNESS_SCORE: 0.6\nREASONING: The logic presented in the solution is incomplete and does not fully capture the requirements of the problem. While it attempts to use a stack-based approach to track character counts, it fails to correctly handle cases where multiple operations can be performed on the same character, leading to incorrect results for certain inputs. For example, it may not properly account for scenarios where multiple triplet removals are possible, resulting in incorrect final string lengths.\n```",
-      "model": "gpt-4o-mini"
+      "reasoning": "The submitted code is incomplete and contains only a partially written/incorrect algorithm sketch inside minimumLength without a finished implementation or return value, so it will not produce correct results for any test cases. The described stack logic is also flawed for the problem semantics (it does not correctly model deletions of matching characters separated by others).",
+      "full_response": "CORRECTNESS_SCORE: 0.0\nREASONING: The submitted code is incomplete and contains only a partially written/incorrect algorithm sketch inside minimumLength without a finished implementation or return value, so it will not produce correct results for any test cases. The described stack logic is also flawed for the problem semantics (it does not correctly model deletions of matching characters separated by others).",
+      "model": "gpt-5-mini"
     },
     {
       "task_id": "3468__P4iegw2",
       "problem_title": "find-the-encrypted-string",
-      "correctness_score": 0.6,
+      "correctness_score": 1.0,
       "actual_accuracy": 1.0,
       "passed_tests": 37,
       "total_tests": 37,
       "unit_test_status": "PASSED",
-      "reasoning": "The algorithm correctly shifts characters by k positions cyclically, but it does not account for the fact that k can be larger than the length of the string. This can lead to incorrect indexing when k is greater than n, as the modulo operation is not effectively reducing k to a valid range. Additionally, the problem statement specifies that the k-th character after c should be considered, which is not accurately reflected in the implementation. Therefore, it would fail for cases where k is larger than the length of the string.\n```",
-      "full_response": "```\nCORRECTNESS_SCORE: 0.6\nREASONING: The algorithm correctly shifts characters by k positions cyclically, but it does not account for the fact that k can be larger than the length of the string. This can lead to incorrect indexing when k is greater than n, as the modulo operation is not effectively reducing k to a valid range. Additionally, the problem statement specifies that the k-th character after c should be considered, which is not accurately reflected in the implementation. Therefore, it would fail for cases where k is larger than the length of the string.\n```",
-      "model": "gpt-4o-mini"
+      "reasoning": "The implementation correctly maps each position i to s[(i+k) % n], which matches the problem statement and the provided examples, including cyclic behavior and large k via modulo. It handles edge cases like n=1 and k > n correctly and returns the expected string format.",
+      "full_response": "CORRECTNESS_SCORE: 1.0\nREASONING: The implementation correctly maps each position i to s[(i+k) % n], which matches the problem statement and the provided examples, including cyclic behavior and large k via modulo. It handles edge cases like n=1 and k > n correctly and returns the expected string format.",
+      "model": "gpt-5-mini"
     },
     {
       "task_id": "3508__RNLxtkw",
@@ -315,33 +315,33 @@
       "passed_tests": 38,
       "total_tests": 38,
       "unit_test_status": "PASSED",
-      "reasoning": "The solution correctly identifies when it is impossible to convert `n` to `k` by checking if `k` has bits set that `n` does not. It accurately counts the number of bit changes required by calculating the XOR of `n` and `k`, which gives the differing bits. The implementation handles all specified cases and constraints effectively, ensuring it will pass all test cases.\n```",
-      "full_response": "```\nCORRECTNESS_SCORE: 1.0\nREASONING: The solution correctly identifies when it is impossible to convert `n` to `k` by checking if `k` has bits set that `n` does not. It accurately counts the number of bit changes required by calculating the XOR of `n` and `k`, which gives the differing bits. The implementation handles all specified cases and constraints effectively, ensuring it will pass all test cases.\n```",
-      "model": "gpt-4o-mini"
+      "reasoning": "The solution correctly checks that all 1-bits in k are present in n (otherwise impossible) and then counts differing bits (n ^ k), which in the feasible case are precisely the 1-bits in n that must be turned off. The bit-count loop and edge cases (including k=0) are handled correctly, so it will pass all valid test cases.",
+      "full_response": "CORRECTNESS_SCORE: 1.0\nREASONING: The solution correctly checks that all 1-bits in k are present in n (otherwise impossible) and then counts differing bits (n ^ k), which in the feasible case are precisely the 1-bits in n that must be turned off. The bit-count loop and edge cases (including k=0) are handled correctly, so it will pass all valid test cases.",
+      "model": "gpt-5-mini"
     },
     {
       "task_id": "3518__cPU6DZC",
       "problem_title": "maximum-multiplication-score",
-      "correctness_score": 0.6,
+      "correctness_score": 1.0,
       "actual_accuracy": 1.0,
       "passed_tests": 42,
       "total_tests": 42,
       "unit_test_status": "PASSED",
-      "reasoning": "The algorithm attempts to use dynamic programming to calculate the maximum score, but it does not correctly enforce the condition that the indices must be strictly increasing. As a result, it may select the same element from `b` multiple times, leading to incorrect scores. Additionally, the handling of the `dp` array does not ensure that the selected indices are unique and in order, which is crucial for the problem requirements.\n```",
-      "full_response": "```\nCORRECTNESS_SCORE: 0.6\nREASONING: The algorithm attempts to use dynamic programming to calculate the maximum score, but it does not correctly enforce the condition that the indices must be strictly increasing. As a result, it may select the same element from `b` multiple times, leading to incorrect scores. Additionally, the handling of the `dp` array does not ensure that the selected indices are unique and in order, which is crucial for the problem requirements.\n```",
-      "model": "gpt-4o-mini"
+      "reasoning": "The solution implements the standard DP for choosing k=4 increasing indices by scanning b left-to-right and updating dp in reverse, which correctly enforces order and maximizes the sum a[0]*b[i0]+...+a[3]*b[i3]. It handles negatives and edge cases (b length = 4) correctly, and using floats does not lose precision given the input bounds, so it will produce correct results for all valid inputs.",
+      "full_response": "CORRECTNESS_SCORE: 1.0\nREASONING: The solution implements the standard DP for choosing k=4 increasing indices by scanning b left-to-right and updating dp in reverse, which correctly enforces order and maximizes the sum a[0]*b[i0]+...+a[3]*b[i3]. It handles negatives and edge cases (b length = 4) correctly, and using floats does not lose precision given the input bounds, so it will produce correct results for all valid inputs.",
+      "model": "gpt-5-mini"
     },
     {
       "task_id": "3535__ZzcrfAU",
       "problem_title": "find-the-count-of-monotonic-pairs-i",
-      "correctness_score": 0.8,
+      "correctness_score": 1.0,
       "actual_accuracy": 1.0,
       "passed_tests": 37,
       "total_tests": 37,
       "unit_test_status": "PASSED",
-      "reasoning": "The logic of the algorithm appears to be sound, as it implements a dynamic programming approach to count monotonic pairs based on the conditions specified. However, there may be edge cases related to the boundaries of the input values, particularly when `nums[i]` is at its maximum or minimum, which could lead to incorrect calculations of valid ranges. Overall, it should pass most test cases but may fail some edge cases.\n```",
-      "full_response": "```\nCORRECTNESS_SCORE: 0.8\nREASONING: The logic of the algorithm appears to be sound, as it implements a dynamic programming approach to count monotonic pairs based on the conditions specified. However, there may be edge cases related to the boundaries of the input values, particularly when `nums[i]` is at its maximum or minimum, which could lead to incorrect calculations of valid ranges. Overall, it should pass most test cases but may fail some edge cases.\n```",
-      "model": "gpt-4o-mini"
+      "reasoning": "The DP correctly enforces arr1 non-decreasing and arr2 non-increasing constraints (prev_val <= curr_val and prev_val <= nums[i-1]-nums[i]+curr_val) while restricting arr1 values to [0, nums[i]]. It handles n=1 and boundary values, and given nums[i] ≤ 50 the time complexity is acceptable, so the solution should produce correct counts modulo 1e9+7 for all valid inputs.",
+      "full_response": "CORRECTNESS_SCORE: 1.0\nREASONING: The DP correctly enforces arr1 non-decreasing and arr2 non-increasing constraints (prev_val <= curr_val and prev_val <= nums[i-1]-nums[i]+curr_val) while restricting arr1 values to [0, nums[i]]. It handles n=1 and boundary values, and given nums[i] ≤ 50 the time complexity is acceptable, so the solution should produce correct counts modulo 1e9+7 for all valid inputs.",
+      "model": "gpt-5-mini"
     },
     {
       "task_id": "3553__dydGS7S",
@@ -351,33 +351,33 @@
       "passed_tests": 42,
       "total_tests": 42,
       "unit_test_status": "PASSED",
-      "reasoning": "The solution correctly determines the color of the squares on a chessboard by checking the parity of the sum of their coordinates. It handles all valid inputs as specified in the problem constraints and accurately returns true or false based on whether the two squares have the same color. Therefore, it will pass all test cases.\n```",
-      "full_response": "```\nCORRECTNESS_SCORE: 1.0\nREASONING: The solution correctly determines the color of the squares on a chessboard by checking the parity of the sum of their coordinates. It handles all valid inputs as specified in the problem constraints and accurately returns true or false based on whether the two squares have the same color. Therefore, it will pass all test cases.\n```",
-      "model": "gpt-4o-mini"
+      "reasoning": "The solution correctly converts column letters to numbers, parses the row, and determines color by parity of the sum (which is the standard method). It handles the given constraints (two-character lowercase coordinates 'a1'..'h8') and will return correct results for all valid inputs.\n```",
+      "full_response": "```\nCORRECTNESS_SCORE: 1.0\nREASONING: The solution correctly converts column letters to numbers, parses the row, and determines color by parity of the sum (which is the standard method). It handles the given constraints (two-character lowercase coordinates 'a1'..'h8') and will return correct results for all valid inputs.\n```",
+      "model": "gpt-5-mini"
     },
     {
       "task_id": "3608__SywfWaB",
       "problem_title": "find-the-number-of-subsequences-with-equal-gcd",
-      "correctness_score": 0.5,
+      "correctness_score": 0.2,
       "actual_accuracy": 1.0,
       "passed_tests": 43,
       "total_tests": 43,
       "unit_test_status": "PASSED",
-      "reasoning": "The solution attempts to use recursion with memoization to count valid subsequence pairs, but it does not correctly handle the requirement for disjoint subsequences. The logic for calculating GCDs and counting pairs is flawed, leading to incorrect results for various test cases, especially when the same number appears multiple times or when the GCDs are not properly tracked. As a result, it is likely to fail many edge cases, particularly those involving repeated elements or specific GCD conditions.\n```",
-      "full_response": "```\nCORRECTNESS_SCORE: 0.5\nREASONING: The solution attempts to use recursion with memoization to count valid subsequence pairs, but it does not correctly handle the requirement for disjoint subsequences. The logic for calculating GCDs and counting pairs is flawed, leading to incorrect results for various test cases, especially when the same number appears multiple times or when the GCDs are not properly tracked. As a result, it is likely to fail many edge cases, particularly those involving repeated elements or specific GCD conditions.\n```",
-      "model": "gpt-4o-mini"
+      "reasoning": "The recursive DP correctly models ordered disjoint subsequence assignments and counts pairs with equal non-empty GCDs, so it will pass small tests and the provided examples. However, with n up to 200 and gcd states up to ~200x200 per index, the lru_cache will explode in time/memory and will TLE/MLE on large worst-case tests, so it will fail most heavy cases.",
+      "full_response": "CORRECTNESS_SCORE: 0.2\nREASONING: The recursive DP correctly models ordered disjoint subsequence assignments and counts pairs with equal non-empty GCDs, so it will pass small tests and the provided examples. However, with n up to 200 and gcd states up to ~200x200 per index, the lru_cache will explode in time/memory and will TLE/MLE on large worst-case tests, so it will fail most heavy cases.",
+      "model": "gpt-5-mini"
     },
     {
       "task_id": "3655__Eu8nftQ",
       "problem_title": "digit-operations-to-make-two-integers-equal",
-      "correctness_score": 0.8,
+      "correctness_score": 0.1,
       "actual_accuracy": 0.6744186046511628,
       "passed_tests": 29,
       "total_tests": 43,
       "unit_test_status": "FAILED",
-      "reasoning": "The solution correctly implements the logic to transform `n` into `m` while ensuring that `n` remains non-prime throughout the operations. However, it may fail in edge cases where the transformation requires multiple steps that could lead to a prime number being formed, especially if `n` and `m` are close to each other or if `n` is already a prime number. Additionally, the handling of costs and the priority queue may not account for all possible paths effectively, leading to potential incorrect outputs in certain scenarios.\n```",
-      "full_response": "```\nCORRECTNESS_SCORE: 0.8\nREASONING: The solution correctly implements the logic to transform `n` into `m` while ensuring that `n` remains non-prime throughout the operations. However, it may fail in edge cases where the transformation requires multiple steps that could lead to a prime number being formed, especially if `n` and `m` are close to each other or if `n` is already a prime number. Additionally, the handling of costs and the priority queue may not account for all possible paths effectively, leading to potential incorrect outputs in certain scenarios.\n```",
-      "model": "gpt-4o-mini"
+      "reasoning": "The solution uses Dijkstra but pushes (number, cost) into the heap so the heap orders by numeric value instead of accumulated cost and also marks nodes visited on push, both of which break correctness of shortest-cost search; these bugs will cause incorrect results for most nontrivial cases. Some trivial cases (no moves or unique monotone paths) might still pass, but the solution is largely incorrect.",
+      "full_response": "CORRECTNESS_SCORE: 0.1\nREASONING: The solution uses Dijkstra but pushes (number, cost) into the heap so the heap orders by numeric value instead of accumulated cost and also marks nodes visited on push, both of which break correctness of shortest-cost search; these bugs will cause incorrect results for most nontrivial cases. Some trivial cases (no moves or unique monotone paths) might still pass, but the solution is largely incorrect.",
+      "model": "gpt-5-mini"
     },
     {
       "task_id": "3656__pEWoTXP",
@@ -387,9 +387,9 @@
       "passed_tests": 34,
       "total_tests": 34,
       "unit_test_status": "PASSED",
-      "reasoning": "The solution correctly implements the logic to remove elements in groups of three and checks for distinctness in the remaining array. It handles all edge cases, including when the array is already distinct or when fewer than three elements remain. Given the constraints, the algorithm will pass all test cases as it effectively finds the minimum number of operations needed.\n```",
-      "full_response": "```\nCORRECTNESS_SCORE: 1.0\nREASONING: The solution correctly implements the logic to remove elements in groups of three and checks for distinctness in the remaining array. It handles all edge cases, including when the array is already distinct or when fewer than three elements remain. Given the constraints, the algorithm will pass all test cases as it effectively finds the minimum number of operations needed.\n```",
-      "model": "gpt-4o-mini"
+      "reasoning": "The solution correctly checks for the minimal number of operations k (0..ceil(n/3)) such that removing the first 3*k elements leaves a subarray with all distinct elements; slicing beyond the array length yields an empty list which models the final partial removal correctly. All edge cases (including small arrays and the maximal-case of removing all elements) are handled, and the approach is exhaustive and correct within the given constraints.",
+      "full_response": "CORRECTNESS_SCORE: 1.0\nREASONING: The solution correctly checks for the minimal number of operations k (0..ceil(n/3)) such that removing the first 3*k elements leaves a subarray with all distinct elements; slicing beyond the array length yields an empty list which models the final partial removal correctly. All edge cases (including small arrays and the maximal-case of removing all elements) are handled, and the approach is exhaustive and correct within the given constraints.",
+      "model": "gpt-5-mini"
     },
     {
       "task_id": "3676__S8cb3Xn",
@@ -399,9 +399,9 @@
       "passed_tests": 34,
       "total_tests": 34,
       "unit_test_status": "PASSED",
-      "reasoning": "The solution correctly identifies the smallest number greater than or equal to `n` that has all bits set in its binary representation. It handles edge cases appropriately, such as when `n` is already a number with all bits set, and it correctly computes the next candidate when necessary. Given the constraints, the logic is sound and will pass all test cases.\n```",
-      "full_response": "```\nCORRECTNESS_SCORE: 1.0\nREASONING: The solution correctly identifies the smallest number greater than or equal to `n` that has all bits set in its binary representation. It handles edge cases appropriately, such as when `n` is already a number with all bits set, and it correctly computes the next candidate when necessary. Given the constraints, the logic is sound and will pass all test cases.\n```",
-      "model": "gpt-4o-mini"
+      "reasoning": "The code correctly finds the smallest number of the form 2^k - 1 that is >= n by using n.bit_length() to build the candidate and, if needed, the next larger all-ones number. It handles all n >= 1 (the given constraint) including boundary cases where n is already all ones or is a power of two.\n```",
+      "full_response": "```\nCORRECTNESS_SCORE: 1.0\nREASONING: The code correctly finds the smallest number of the form 2^k - 1 that is >= n by using n.bit_length() to build the candidate and, if needed, the next larger all-ones number. It handles all n >= 1 (the given constraint) including boundary cases where n is already all ones or is a power of two.\n```",
+      "model": "gpt-5-mini"
     },
     {
       "task_id": "3736__kjoq8T6",
@@ -411,21 +411,21 @@
       "passed_tests": 34,
       "total_tests": 34,
       "unit_test_status": "PASSED",
-      "reasoning": "The solution correctly implements the logic to find valid pairs of adjacent digits according to the problem's requirements. It accurately counts the frequency of each digit and checks both the adjacency and the frequency conditions. The solution handles all specified cases, including edge cases, and produces the correct output format.\n```",
-      "full_response": "```\nCORRECTNESS_SCORE: 1.0\nREASONING: The solution correctly implements the logic to find valid pairs of adjacent digits according to the problem's requirements. It accurately counts the frequency of each digit and checks both the adjacency and the frequency conditions. The solution handles all specified cases, including edge cases, and produces the correct output format.\n```",
-      "model": "gpt-4o-mini"
+      "reasoning": "The solution correctly counts digit frequencies and scans adjacent pairs left-to-right, checking first!=second and that each digit's count equals its numeric value, which matches the problem specification. It handles all constraints (digits '1'–'9', length >=2) and will return the first valid pair or empty string as required, so it should pass all test cases.\n```",
+      "full_response": "```\nCORRECTNESS_SCORE: 1.0\nREASONING: The solution correctly counts digit frequencies and scans adjacent pairs left-to-right, checking first!=second and that each digit's count equals its numeric value, which matches the problem specification. It handles all constraints (digits '1'–'9', length >=2) and will return the first valid pair or empty string as required, so it should pass all test cases.\n```",
+      "model": "gpt-5-mini"
     },
     {
       "task_id": "3763__TWBmEDA",
       "problem_title": "separate-squares-i",
-      "correctness_score": 0.8,
+      "correctness_score": 0.6,
       "actual_accuracy": 0.4523809523809524,
       "passed_tests": 19,
       "total_tests": 42,
       "unit_test_status": "FAILED",
-      "reasoning": "The logic for calculating areas below and above the line appears sound, but there are potential issues with how the areas are computed when squares overlap or when the line intersects multiple squares. Additionally, the implementation does not include the logic for binary search or any method to find the correct y-coordinate that balances the areas, which is crucial for solving the problem. This could lead to failing edge cases where precise area balancing is required.\n```",
-      "full_response": "```\nCORRECTNESS_SCORE: 0.8\nREASONING: The logic for calculating areas below and above the line appears sound, but there are potential issues with how the areas are computed when squares overlap or when the line intersects multiple squares. Additionally, the implementation does not include the logic for binary search or any method to find the correct y-coordinate that balances the areas, which is crucial for solving the problem. This could lead to failing edge cases where precise area balancing is required.\n```",
-      "model": "gpt-4o-mini"
+      "reasoning": "The per-square area computation for parts above/below a horizontal line is correct and a monotonic binary search approach would solve most instances, so many test cases would pass. However the provided code is incomplete/truncated and (even if completed with a straightforward binary search) would likely return an arbitrary point in a zero-difference interval instead of the required minimum y (and may not handle the minimal-boundary requirement), so some cases would fail.",
+      "full_response": "CORRECTNESS_SCORE: 0.6\nREASONING: The per-square area computation for parts above/below a horizontal line is correct and a monotonic binary search approach would solve most instances, so many test cases would pass. However the provided code is incomplete/truncated and (even if completed with a straightforward binary search) would likely return an arbitrary point in a zero-difference interval instead of the required minimum y (and may not handle the minimal-boundary requirement), so some cases would fail.",
+      "model": "gpt-5-mini"
     },
     {
       "task_id": "3768__XT79fUD",
@@ -435,21 +435,21 @@
       "passed_tests": 33,
       "total_tests": 33,
       "unit_test_status": "PASSED",
-      "reasoning": "The solution correctly implements the algorithm to reduce the string of digits by summing consecutive pairs and taking the modulo 10 until only two digits remain. It accurately checks if the final two digits are the same, fulfilling all problem requirements and constraints without any edge case issues.\n```",
-      "full_response": "```\nCORRECTNESS_SCORE: 1.0\nREASONING: The solution correctly implements the algorithm to reduce the string of digits by summing consecutive pairs and taking the modulo 10 until only two digits remain. It accurately checks if the final two digits are the same, fulfilling all problem requirements and constraints without any edge case issues.\n```",
-      "model": "gpt-4o-mini"
+      "reasoning": "The implementation exactly simulates the described reduction process, repeatedly computing (digit_i + digit_{i+1}) % 10 until two digits remain and then compares them. It handles all input constraints (strings of digits, length 3–100) and will produce the correct boolean result for all valid cases.",
+      "full_response": "CORRECTNESS_SCORE: 1.0\nREASONING: The implementation exactly simulates the described reduction process, repeatedly computing (digit_i + digit_{i+1}) % 10 until two digits remain and then compares them. It handles all input constraints (strings of digits, length 3–100) and will produce the correct boolean result for all valid cases.",
+      "model": "gpt-5-mini"
     },
     {
       "task_id": "3779__FvhxeFm",
       "problem_title": "eat-pizzas",
-      "correctness_score": 0.8,
+      "correctness_score": 1.0,
       "actual_accuracy": 0.8095238095238095,
       "passed_tests": 34,
       "total_tests": 42,
       "unit_test_status": "FAILED",
-      "reasoning": "The solution correctly implements the strategy of maximizing the weight gained on odd and even days by sorting the pizzas in descending order. However, it fails to account for the requirement to select the three smallest pizzas to fill the slots on odd days and two smallest on even days, which could lead to suboptimal selections in certain configurations. This oversight may cause it to fail some edge cases where the distribution of pizza weights is not uniform.\n```",
-      "full_response": "```\nCORRECTNESS_SCORE: 0.8\nREASONING: The solution correctly implements the strategy of maximizing the weight gained on odd and even days by sorting the pizzas in descending order. However, it fails to account for the requirement to select the three smallest pizzas to fill the slots on odd days and two smallest on even days, which could lead to suboptimal selections in certain configurations. This oversight may cause it to fail some edge cases where the distribution of pizza weights is not uniform.\n```",
-      "model": "gpt-4o-mini"
+      "reasoning": "The code implements the correct greedy strategy (equivalent to the standard two-pointer approach on the ascending-sorted array) by selecting the appropriate end elements to maximize odd-day Z and even-day Y gains; indices accessed remain within bounds for n multiple of 4. It matches the known optimal grouping and handles all constraints, so it will pass all test cases.",
+      "full_response": "CORRECTNESS_SCORE: 1.0\nREASONING: The code implements the correct greedy strategy (equivalent to the standard two-pointer approach on the ascending-sorted array) by selecting the appropriate end elements to maximize odd-day Z and even-day Y gains; indices accessed remain within bounds for n multiple of 4. It matches the known optimal grouping and handles all constraints, so it will pass all test cases.",
+      "model": "gpt-5-mini"
     },
     {
       "task_id": "3811__QMaBwyc",
@@ -459,9 +459,9 @@
       "passed_tests": 33,
       "total_tests": 33,
       "unit_test_status": "PASSED",
-      "reasoning": "The solution correctly implements the logic to calculate the reverse degree of a string by accurately determining the position of each character in the reversed alphabet and multiplying it by its 1-indexed position in the string. It handles all specified constraints and edge cases, such as the minimum and maximum lengths of the input string, ensuring that it will pass all test cases.\n```",
-      "full_response": "```\nCORRECTNESS_SCORE: 1.0\nREASONING: The solution correctly implements the logic to calculate the reverse degree of a string by accurately determining the position of each character in the reversed alphabet and multiplying it by its 1-indexed position in the string. It handles all specified constraints and edge cases, such as the minimum and maximum lengths of the input string, ensuring that it will pass all test cases.\n```",
-      "model": "gpt-4o-mini"
+      "reasoning": "The implementation correctly computes the reversed-alphabet index as ord('z') - ord(char) + 1 and multiplies by the 1-indexed string position, summing for all characters. It matches the examples and handles boundary cases (including the minimal and maximal lengths) under the given constraints, so it will pass all test cases.",
+      "full_response": "CORRECTNESS_SCORE: 1.0\nREASONING: The implementation correctly computes the reversed-alphabet index as ord('z') - ord(char) + 1 and multiplies by the 1-indexed string position, summing for all characters. It matches the examples and handles boundary cases (including the minimal and maximal lengths) under the given constraints, so it will pass all test cases.",
+      "model": "gpt-5-mini"
     },
     {
       "task_id": "abc306_d__YarqKDX",
@@ -471,9 +471,9 @@
       "passed_tests": 15,
       "total_tests": 15,
       "unit_test_status": "PASSED",
-      "reasoning": "The solution correctly implements a dynamic programming approach to track the maximum tastiness while considering the health states of Takahashi. It handles all possible transitions between states appropriately and ensures that he does not die by avoiding the transition from an upset stomach after eating a poisonous course. Given the constraints and the logic applied, it will pass all test cases.\n```",
-      "full_response": "```\nCORRECTNESS_SCORE: 1.0\nREASONING: The solution correctly implements a dynamic programming approach to track the maximum tastiness while considering the health states of Takahashi. It handles all possible transitions between states appropriately and ensures that he does not die by avoiding the transition from an upset stomach after eating a poisonous course. Given the constraints and the logic applied, it will pass all test cases.\n```",
-      "model": "gpt-4o-mini"
+      "reasoning": "The DP correctly models the two stomach states and transitions (skip, eat antidote, eat poison only from healthy), handles negative tastiness by taking max with 0 (eat nothing), and avoids invalid transitions (dying). Use of -inf guards impossible states properly and Python handles large integer sums, so the solution is correct for all cases.",
+      "full_response": "CORRECTNESS_SCORE: 1.0\nREASONING: The DP correctly models the two stomach states and transitions (skip, eat antidote, eat poison only from healthy), handles negative tastiness by taking max with 0 (eat nothing), and avoids invalid transitions (dying). Use of -inf guards impossible states properly and Python handles large integer sums, so the solution is correct for all cases.",
+      "model": "gpt-5-mini"
     },
     {
       "task_id": "abc307_a__47sdoia",
@@ -483,21 +483,21 @@
       "passed_tests": 10,
       "total_tests": 10,
       "unit_test_status": "PASSED",
-      "reasoning": "The provided solution correctly calculates the total number of steps for each week by summing the appropriate slices of the input list. It handles the input format as specified and produces the output in the required format. Given the constraints and the logic used, it will pass all test cases, including edge cases such as the minimum and maximum values for N and A_i.\n```",
-      "full_response": "```\nCORRECTNESS_SCORE: 1.0\nREASONING: The provided solution correctly calculates the total number of steps for each week by summing the appropriate slices of the input list. It handles the input format as specified and produces the output in the required format. Given the constraints and the logic used, it will pass all test cases, including edge cases such as the minimum and maximum values for N and A_i.\n```",
-      "model": "gpt-4o-mini"
+      "reasoning": "The code correctly reads N and the 7N step counts, sums each consecutive block of 7 values, and prints the weekly totals in the required format. It matches the problem constraints and handles the specified input/output format, so it will pass all test cases.",
+      "full_response": "CORRECTNESS_SCORE: 1.0\nREASONING: The code correctly reads N and the 7N step counts, sums each consecutive block of 7 values, and prints the weekly totals in the required format. It matches the problem constraints and handles the specified input/output format, so it will pass all test cases.",
+      "model": "gpt-5-mini"
     },
     {
       "task_id": "abc309_d__v2kRFtt",
       "problem_title": "Add One Edge",
-      "correctness_score": 0.8,
+      "correctness_score": 0.2,
       "actual_accuracy": 0.7142857142857143,
       "passed_tests": 10,
       "total_tests": 14,
       "unit_test_status": "FAILED",
-      "reasoning": "The solution correctly implements the logic to find the maximum distance after adding an edge between the two components of the graph. However, it may fail in edge cases where the graph has specific structures or when the number of edges is minimal, leading to potential miscalculations of distances. Overall, it handles most cases well but could miss some edge scenarios.\n```",
-      "full_response": "```\nCORRECTNESS_SCORE: 0.8\nREASONING: The solution correctly implements the logic to find the maximum distance after adding an edge between the two components of the graph. However, it may fail in edge cases where the graph has specific structures or when the number of edges is minimal, leading to potential miscalculations of distances. Overall, it handles most cases well but could miss some edge scenarios.\n```",
-      "model": "gpt-4o-mini"
+      "reasoning": "The logic for computing distances is correct and the code produces the right answer for small inputs, but it tries all O(N1*N2) pairs which will TLE for large constraints (N1,N2 up to 1.5e5). Thus it will pass small tests and samples but fail the large test cases due to time limits.",
+      "full_response": "CORRECTNESS_SCORE: 0.2\nREASONING: The logic for computing distances is correct and the code produces the right answer for small inputs, but it tries all O(N1*N2) pairs which will TLE for large constraints (N1,N2 up to 1.5e5). Thus it will pass small tests and samples but fail the large test cases due to time limits.",
+      "model": "gpt-5-mini"
     },
     {
       "task_id": "abc310_b__z8Gbe5f",
@@ -507,57 +507,57 @@
       "passed_tests": 15,
       "total_tests": 15,
       "unit_test_status": "PASSED",
-      "reasoning": "The code correctly implements the logic to determine if there exists a product that is strictly superior to another based on the given conditions. It accurately checks the price and function requirements, and handles all edge cases as specified in the problem statement. The solution will pass all test cases, including those with varying numbers of products and functions.\n```",
-      "full_response": "```\nCORRECTNESS_SCORE: 1.0\nREASONING: The code correctly implements the logic to determine if there exists a product that is strictly superior to another based on the given conditions. It accurately checks the price and function requirements, and handles all edge cases as specified in the problem statement. The solution will pass all test cases, including those with varying numbers of products and functions.\n```",
-      "model": "gpt-4o-mini"
+      "reasoning": "The code directly implements the three required conditions (Pi >= Pj, functions_i ⊆ functions_j, and Pi > Pj or functions_j \\ functions_i non-empty) for every pair i != j, correctly handling equal prices/functions and inputs as specified. It respects input constraints and will identify any strictly superior product pair, so it should pass all test cases.",
+      "full_response": "CORRECTNESS_SCORE: 1.0\nREASONING: The code directly implements the three required conditions (Pi >= Pj, functions_i ⊆ functions_j, and Pi > Pj or functions_j \\ functions_i non-empty) for every pair i != j, correctly handling equal prices/functions and inputs as specified. It respects input constraints and will identify any strictly superior product pair, so it should pass all test cases.",
+      "model": "gpt-5-mini"
     },
     {
       "task_id": "abc310_f__7ZHFYN3",
       "problem_title": "Make 10 Again",
-      "correctness_score": 0.5,
+      "correctness_score": 0.0,
       "actual_accuracy": 1.0,
       "passed_tests": 14,
       "total_tests": 14,
       "unit_test_status": "PASSED",
-      "reasoning": "The solution attempts to use dynamic programming to count the number of ways to achieve a sum of 10 from the dice rolls, but it lacks a complete implementation and clear logic for handling the subset sum problem. As a result, it is likely to fail on many test cases, particularly those with edge cases or larger values of A_i, leading to significant flaws in correctness.\n```",
-      "full_response": "```\nCORRECTNESS_SCORE: 0.5\nREASONING: The solution attempts to use dynamic programming to count the number of ways to achieve a sum of 10 from the dice rolls, but it lacks a complete implementation and clear logic for handling the subset sum problem. As a result, it is likely to fail on many test cases, particularly those with edge cases or larger values of A_i, leading to significant flaws in correctness.\n```",
-      "model": "gpt-4o-mini"
+      "reasoning": "The submitted code is incomplete and does not implement the required algorithm — the solve() function never finishes computing the probability or prints an answer, and the intended DP logic is only commented and not implemented. As written it will not produce correct outputs for any nontrivial test case.",
+      "full_response": "CORRECTNESS_SCORE: 0.0\nREASONING: The submitted code is incomplete and does not implement the required algorithm — the solve() function never finishes computing the probability or prints an answer, and the intended DP logic is only commented and not implemented. As written it will not produce correct outputs for any nontrivial test case.",
+      "model": "gpt-5-mini"
     },
     {
       "task_id": "abc312_d__QE6GRrC",
       "problem_title": "Count Bracket Sequences",
-      "correctness_score": 0.9,
+      "correctness_score": 1.0,
       "actual_accuracy": 1.0,
       "passed_tests": 15,
       "total_tests": 15,
       "unit_test_status": "PASSED",
-      "reasoning": "The solution correctly implements a dynamic programming approach to count valid parenthesis sequences, handling the '?' character appropriately. However, it may not fully account for cases where the balance goes negative during the processing of the string, which could lead to incorrect results in some edge cases. Overall, it should pass most test cases, but there are potential edge cases that could cause it to fail.\n```",
-      "full_response": "```\nCORRECTNESS_SCORE: 0.9\nREASONING: The solution correctly implements a dynamic programming approach to count valid parenthesis sequences, handling the '?' character appropriately. However, it may not fully account for cases where the balance goes negative during the processing of the string, which could lead to incorrect results in some edge cases. Overall, it should pass most test cases, but there are potential edge cases that could cause it to fail.\n```",
-      "model": "gpt-4o-mini"
+      "reasoning": "The DP correctly enforces prefix non-negativity and final balance zero, thereby counting all valid replacements; it handles '?' and fixed parentheses and uses modulo arithmetic. The O(n^2) time and space (n ≤ 3000) is standard for this problem and should fit typical contest limits, so it will pass all test cases.",
+      "full_response": "CORRECTNESS_SCORE: 1.0\nREASONING: The DP correctly enforces prefix non-negativity and final balance zero, thereby counting all valid replacements; it handles '?' and fixed parentheses and uses modulo arithmetic. The O(n^2) time and space (n ≤ 3000) is standard for this problem and should fit typical contest limits, so it will pass all test cases.",
+      "model": "gpt-5-mini"
     },
     {
       "task_id": "abc320_c__NTeRKVa",
       "problem_title": "Slot Strategy 2 (Easy)",
-      "correctness_score": 0.9,
+      "correctness_score": 0.2,
       "actual_accuracy": 0.9333333333333333,
       "passed_tests": 14,
       "total_tests": 15,
       "unit_test_status": "FAILED",
-      "reasoning": "The solution correctly identifies the remainders for each digit and attempts to find distinct times for each reel to achieve the same displayed character. However, it may fail in edge cases where the maximum bound is not sufficient to find distinct times, particularly when the remainders are limited or when the same digit appears in multiple reels at the same position. Overall, it handles most cases well but could miss some specific edge cases.\n```",
-      "full_response": "```\nCORRECTNESS_SCORE: 0.9\nREASONING: The solution correctly identifies the remainders for each digit and attempts to find distinct times for each reel to achieve the same displayed character. However, it may fail in edge cases where the maximum bound is not sufficient to find distinct times, particularly when the remainders are limited or when the same digit appears in multiple reels at the same position. Overall, it handles most cases well but could miss some specific edge cases.\n```",
-      "model": "gpt-4o-mini"
+      "reasoning": "The logic is correct (it enforces distinct press times and finds minimal max time), but it is extremely inefficient: in worst-case (a digit occurs at all M positions on each reel) the times lists become O(M^2) long and the triple-nested combination loop is infeasible, causing TLE on large tests. It will produce correct outputs for small/easy cases but fail (timeout) on many official tests.",
+      "full_response": "CORRECTNESS_SCORE: 0.2\nREASONING: The logic is correct (it enforces distinct press times and finds minimal max time), but it is extremely inefficient: in worst-case (a digit occurs at all M positions on each reel) the times lists become O(M^2) long and the triple-nested combination loop is infeasible, causing TLE on large tests. It will produce correct outputs for small/easy cases but fail (timeout) on many official tests.",
+      "model": "gpt-5-mini"
     },
     {
       "task_id": "abc325_c__ejRUqP8",
       "problem_title": "Sensors",
-      "correctness_score": 1.0,
+      "correctness_score": 0.6,
       "actual_accuracy": 0.5625,
       "passed_tests": 9,
       "total_tests": 16,
       "unit_test_status": "FAILED",
-      "reasoning": "The solution correctly implements a depth-first search (DFS) to explore connected components of sensors represented by '#' on the grid. It handles all edge cases, including grids with no sensors, and correctly counts the number of distinct sensor groups. The algorithm adheres to the problem constraints and produces the expected output format.\n```",
-      "full_response": "```\nCORRECTNESS_SCORE: 1.0\nREASONING: The solution correctly implements a depth-first search (DFS) to explore connected components of sensors represented by '#' on the grid. It handles all edge cases, including grids with no sensors, and correctly counts the number of distinct sensor groups. The algorithm adheres to the problem constraints and produces the expected output format.\n```",
-      "model": "gpt-4o-mini"
+      "reasoning": "The algorithm correctly counts 8-connected components and handles inputs/outputs properly, so it passes small and moderate tests. However, it uses recursive DFS without increasing the recursion limit, so it will likely raise RecursionError (or be too slow) on large worst-case grids (H,W up to 1000, e.g. a large single component), causing failure on large test cases.",
+      "full_response": "CORRECTNESS_SCORE: 0.6\nREASONING: The algorithm correctly counts 8-connected components and handles inputs/outputs properly, so it passes small and moderate tests. However, it uses recursive DFS without increasing the recursion limit, so it will likely raise RecursionError (or be too slow) on large worst-case grids (H,W up to 1000, e.g. a large single component), causing failure on large test cases.",
+      "model": "gpt-5-mini"
     },
     {
       "task_id": "abc328_d__pHkHhz8",
@@ -567,33 +567,33 @@
       "passed_tests": 15,
       "total_tests": 15,
       "unit_test_status": "PASSED",
-      "reasoning": "The provided solution correctly implements the logic to remove all occurrences of the substring \"ABC\" from the input string S. It efficiently uses a stack to track characters and removes the last three characters when \"ABC\" is formed, ensuring that all instances are handled. The solution passes all test cases, including edge cases such as empty strings and strings that consist solely of \"ABC\".\n```",
-      "full_response": "```\nCORRECTNESS_SCORE: 1.0\nREASONING: The provided solution correctly implements the logic to remove all occurrences of the substring \"ABC\" from the input string S. It efficiently uses a stack to track characters and removes the last three characters when \"ABC\" is formed, ensuring that all instances are handled. The solution passes all test cases, including edge cases such as empty strings and strings that consist solely of \"ABC\".\n```",
-      "model": "gpt-4o-mini"
+      "reasoning": "The stack-based approach correctly simulates repeated removals by eliminating any newly formed \"ABC\" as it appears when scanning left-to-right, which yields the same final string as repeatedly removing the leftmost \"ABC\". It handles edge cases (including empty result), meets input constraints, and is efficient for n ≤ 2×10^5.",
+      "full_response": "CORRECTNESS_SCORE: 1.0\nREASONING: The stack-based approach correctly simulates repeated removals by eliminating any newly formed \"ABC\" as it appears when scanning left-to-right, which yields the same final string as repeatedly removing the leftmost \"ABC\". It handles edge cases (including empty result), meets input constraints, and is efficient for n ≤ 2×10^5.",
+      "model": "gpt-5-mini"
     },
     {
       "task_id": "abc329_c__paUH3zZ",
       "problem_title": "Count xxx",
-      "correctness_score": 0.9,
+      "correctness_score": 0.5,
       "actual_accuracy": 0.8666666666666667,
       "passed_tests": 13,
       "total_tests": 15,
       "unit_test_status": "FAILED",
-      "reasoning": "The solution correctly identifies and counts unique substrings that are repetitions of a single character. However, it uses a set to store these substrings, which is unnecessary since the problem only requires counting them, not storing them. This could lead to inefficiencies, but it does not affect correctness. The solution should pass most test cases, including edge cases, but may have minor performance issues with larger inputs.\n```",
-      "full_response": "```\nCORRECTNESS_SCORE: 0.9\nREASONING: The solution correctly identifies and counts unique substrings that are repetitions of a single character. However, it uses a set to store these substrings, which is unnecessary since the problem only requires counting them, not storing them. This could lead to inefficiencies, but it does not affect correctness. The solution should pass most test cases, including edge cases, but may have minor performance issues with larger inputs.\n```",
-      "model": "gpt-4o-mini"
+      "reasoning": "The logic is functionally correct (it counts distinct single-character repeated substrings), but it builds all repeated strings explicitly which in the worst case (e.g., a single run of length 2e5) does O(r^2) work and huge memory allocations, so it will TLE/OW on large inputs. It will pass small tests and samples but fail large cases due to performance.",
+      "full_response": "CORRECTNESS_SCORE: 0.5\nREASONING: The logic is functionally correct (it counts distinct single-character repeated substrings), but it builds all repeated strings explicitly which in the worst case (e.g., a single run of length 2e5) does O(r^2) work and huge memory allocations, so it will TLE/OW on large inputs. It will pass small tests and samples but fail large cases due to performance.",
+      "model": "gpt-5-mini"
     },
     {
       "task_id": "abc329_f__NcZYfUx",
       "problem_title": "Colored Ball",
-      "correctness_score": 0.9,
+      "correctness_score": 0.2,
       "actual_accuracy": 0.7857142857142857,
       "passed_tests": 11,
       "total_tests": 14,
       "unit_test_status": "FAILED",
-      "reasoning": "The solution correctly implements the logic for moving balls between boxes and counting distinct colors. However, it does not handle the case where box `b` is empty before moving balls from box `a`, which could lead to incorrect color counts if not properly initialized. This minor edge case could cause it to fail in scenarios where the queries involve empty boxes.\n```",
-      "full_response": "```\nCORRECTNESS_SCORE: 0.9\nREASONING: The solution correctly implements the logic for moving balls between boxes and counting distinct colors. However, it does not handle the case where box `b` is empty before moving balls from box `a`, which could lead to incorrect color counts if not properly initialized. This minor edge case could cause it to fail in scenarios where the queries involve empty boxes.\n```",
-      "model": "gpt-4o-mini"
+      "reasoning": "The logic produces correct results for each query but it does not use small-to-large merging, so worst-case it will perform too many dict-operations and will TLE (and possibly use excessive memory) on large inputs (N,Q up to 200k). It will pass small tests and some random cases but will fail the large/worst-case tests used by the judge.\n```",
+      "full_response": "```\nCORRECTNESS_SCORE: 0.2\nREASONING: The logic produces correct results for each query but it does not use small-to-large merging, so worst-case it will perform too many dict-operations and will TLE (and possibly use excessive memory) on large inputs (N,Q up to 200k). It will pass small tests and some random cases but will fail the large/worst-case tests used by the judge.\n```",
+      "model": "gpt-5-mini"
     },
     {
       "task_id": "abc330_c__VzsqBDi",
@@ -603,9 +603,9 @@
       "passed_tests": 15,
       "total_tests": 15,
       "unit_test_status": "PASSED",
-      "reasoning": "The solution correctly implements the logic to minimize the absolute difference |x^2 + y^2 - D| for non-negative integers x and y. It efficiently iterates through possible values of x and calculates the corresponding values of y, ensuring that all edge cases are handled, including when D is a perfect square. The output format is correct, and the algorithm adheres to the problem constraints, guaranteeing that it will pass all test cases.\n```",
-      "full_response": "```\nCORRECTNESS_SCORE: 1.0\nREASONING: The solution correctly implements the logic to minimize the absolute difference |x^2 + y^2 - D| for non-negative integers x and y. It efficiently iterates through possible values of x and calculates the corresponding values of y, ensuring that all edge cases are handled, including when D is a perfect square. The output format is correct, and the algorithm adheres to the problem constraints, guaranteeing that it will pass all test cases.\n```",
-      "model": "gpt-4o-mini"
+      "reasoning": "The code correctly iterates x from 0..floor(sqrt(D)) (breaking when x^2>D) and for each chooses y = floor(sqrt(D-x^2)) checking y and y+1, which is sufficient because at least one of the optimal pair must be ≤ sqrt(D). Floating-point sqrt errors are harmless because both y and y+1 are tested. The approach handles the full input range efficiently and yields the correct minimum absolute difference.",
+      "full_response": "CORRECTNESS_SCORE: 1.0\nREASONING: The code correctly iterates x from 0..floor(sqrt(D)) (breaking when x^2>D) and for each chooses y = floor(sqrt(D-x^2)) checking y and y+1, which is sufficient because at least one of the optimal pair must be ≤ sqrt(D). Floating-point sqrt errors are harmless because both y and y+1 are tested. The approach handles the full input range efficiently and yields the correct minimum absolute difference.",
+      "model": "gpt-5-mini"
     },
     {
       "task_id": "abc333_a__2HkhkHP",
@@ -615,33 +615,33 @@
       "passed_tests": 9,
       "total_tests": 9,
       "unit_test_status": "PASSED",
-      "reasoning": "The solution correctly reads an integer N from input, converts it to a string, and concatenates N copies of that string. Given the constraints (1 ≤ N ≤ 9), it handles all edge cases properly and produces the expected output format for all valid inputs. Thus, it will pass all test cases.\n```",
-      "full_response": "```\nCORRECTNESS_SCORE: 1.0\nREASONING: The solution correctly reads an integer N from input, converts it to a string, and concatenates N copies of that string. Given the constraints (1 ≤ N ≤ 9), it handles all edge cases properly and produces the expected output format for all valid inputs. Thus, it will pass all test cases.\n```",
-      "model": "gpt-4o-mini"
+      "reasoning": "The code reads N, converts it to a string and repeats it N times which exactly matches the problem requirement for all allowed inputs (1 through 9). It handles input parsing and output formatting correctly and there are no disallowed edge cases given the constraints.\n```",
+      "full_response": "```\nCORRECTNESS_SCORE: 1.0\nREASONING: The code reads N, converts it to a string and repeats it N times which exactly matches the problem requirement for all allowed inputs (1 through 9). It handles input parsing and output formatting correctly and there are no disallowed edge cases given the constraints.\n```",
+      "model": "gpt-5-mini"
     },
     {
       "task_id": "abc334_b__aZCvHdu",
       "problem_title": "Christmas Trees",
-      "correctness_score": 1.0,
+      "correctness_score": 0.8,
       "actual_accuracy": 0.8,
       "passed_tests": 12,
       "total_tests": 15,
       "unit_test_status": "FAILED",
-      "reasoning": "The solution correctly calculates the range of integers k that satisfy the conditions for the Christmas tree placements between Takahashi and Aoki. It handles edge cases, such as when L equals R, and correctly uses ceiling and floor functions to determine the bounds for k. Given the constraints and the logic implemented, it will pass all test cases.\n```",
-      "full_response": "```\nCORRECTNESS_SCORE: 1.0\nREASONING: The solution correctly calculates the range of integers k that satisfy the conditions for the Christmas tree placements between Takahashi and Aoki. It handles edge cases, such as when L equals R, and correctly uses ceiling and floor functions to determine the bounds for k. Given the constraints and the logic implemented, it will pass all test cases.\n```",
-      "model": "gpt-4o-mini"
+      "reasoning": "The algorithmic approach is correct (count k with ceil((L-A)/M) to floor((R-A)/M)), but the implementation uses floating-point division and math.ceil/floor on potentially very large integers. That can introduce precision/rounding errors (and off-by-one outcomes) when |L-A| or |R-A| exceed float precision (~9e15), so some large-edge test cases (e.g. M=1 or extremes near 1e18) will fail.",
+      "full_response": "CORRECTNESS_SCORE: 0.8\nREASONING: The algorithmic approach is correct (count k with ceil((L-A)/M) to floor((R-A)/M)), but the implementation uses floating-point division and math.ceil/floor on potentially very large integers. That can introduce precision/rounding errors (and off-by-one outcomes) when |L-A| or |R-A| exceed float precision (~9e15), so some large-edge test cases (e.g. M=1 or extremes near 1e18) will fail.",
+      "model": "gpt-5-mini"
     },
     {
       "task_id": "abc341_e__dCoaVdt",
       "problem_title": "Alternating String",
-      "correctness_score": 0.9,
+      "correctness_score": 0.0,
       "actual_accuracy": 0.6428571428571429,
       "passed_tests": 9,
       "total_tests": 14,
       "unit_test_status": "FAILED",
-      "reasoning": "The solution correctly implements the logic for flipping characters and checking if a substring is a good string. However, it may fail in edge cases where multiple consecutive flips are performed on overlapping ranges, potentially leading to incorrect states of the string. Overall, it handles the basic requirements well but could struggle with complex query sequences.\n```",
-      "full_response": "```\nCORRECTNESS_SCORE: 0.9\nREASONING: The solution correctly implements the logic for flipping characters and checking if a substring is a good string. However, it may fail in edge cases where multiple consecutive flips are performed on overlapping ranges, potentially leading to incorrect states of the string. Overall, it handles the basic requirements well but could struggle with complex query sequences.\n```",
-      "model": "gpt-4o-mini"
+      "reasoning": "The algorithm is functionally correct for small inputs but is O(N*Q) in the worst case (flipping each element for every type-1 query), which will time out on the problem's constraints (N,Q up to 5e5). Therefore it will fail the large test cases and not pass the full test set.\n```",
+      "full_response": "```\nCORRECTNESS_SCORE: 0.0\nREASONING: The algorithm is functionally correct for small inputs but is O(N*Q) in the worst case (flipping each element for every type-1 query), which will time out on the problem's constraints (N,Q up to 5e5). Therefore it will fail the large test cases and not pass the full test set.\n```",
+      "model": "gpt-5-mini"
     },
     {
       "task_id": "abc343_a__JgfL92C",
@@ -651,21 +651,21 @@
       "passed_tests": 1,
       "total_tests": 12,
       "unit_test_status": "FAILED",
-      "reasoning": "The solution correctly computes A + B and iterates through the integers 0 to 9 to find and print any integer that is not equal to A + B. Given the constraints that A and B are between 0 and 9 and A + B is guaranteed to be less than or equal to 9, the solution will always find a valid output. It handles all edge cases and outputs the correct format.\n```",
-      "full_response": "```\nCORRECTNESS_SCORE: 1.0\nREASONING: The solution correctly computes A + B and iterates through the integers 0 to 9 to find and print any integer that is not equal to A + B. Given the constraints that A and B are between 0 and 9 and A + B is guaranteed to be less than or equal to 9, the solution will always find a valid output. It handles all edge cases and outputs the correct format.\n```",
-      "model": "gpt-4o-mini"
+      "reasoning": "The code always prints the first integer in 0..9 that is not equal to A+B, which satisfies the requirement to output any digit different from A+B. It handles edge cases (e.g., A+B = 0 or 9) and uses valid input parsing and output format, so it will pass all test cases.\n```",
+      "full_response": "```\nCORRECTNESS_SCORE: 1.0\nREASONING: The code always prints the first integer in 0..9 that is not equal to A+B, which satisfies the requirement to output any digit different from A+B. It handles edge cases (e.g., A+B = 0 or 9) and uses valid input parsing and output format, so it will pass all test cases.\n```",
+      "model": "gpt-5-mini"
     },
     {
       "task_id": "abc348_d__Arj6Gvb",
       "problem_title": "Medicines on Grid",
-      "correctness_score": 0.9,
+      "correctness_score": 1.0,
       "actual_accuracy": 1.0,
       "passed_tests": 28,
       "total_tests": 28,
       "unit_test_status": "PASSED",
-      "reasoning": "The solution correctly implements a breadth-first search (BFS) to navigate the grid while managing energy levels and using medicines. However, it may fail in edge cases where multiple medicines are available at the same position or when the path to the goal requires careful management of energy levels, potentially leading to missed opportunities to use medicines effectively. Overall, it handles most scenarios well but could struggle with specific configurations of medicines and obstacles.\n```",
-      "full_response": "```\nCORRECTNESS_SCORE: 0.9\nREASONING: The solution correctly implements a breadth-first search (BFS) to navigate the grid while managing energy levels and using medicines. However, it may fail in edge cases where multiple medicines are available at the same position or when the path to the goal requires careful management of energy levels, potentially leading to missed opportunities to use medicines effectively. Overall, it handles most scenarios well but could struggle with specific configurations of medicines and obstacles.\n```",
-      "model": "gpt-4o-mini"
+      "reasoning": "The BFS over states (cell, energy) with pruning by recording the maximum energy seen per cell is sound: any visit with energy <= previously seen is dominated, and medicine uses are applied when they improve the cell's energy. Edge cases (start with 0 energy, medicines on start, obstacles, bounds) are handled correctly, so the solution should pass all test cases.",
+      "full_response": "CORRECTNESS_SCORE: 1.0\nREASONING: The BFS over states (cell, energy) with pruning by recording the maximum energy seen per cell is sound: any visit with energy <= previously seen is dominated, and medicine uses are applied when they improve the cell's energy. Edge cases (start with 0 energy, medicines on start, obstacles, bounds) are handled correctly, so the solution should pass all test cases.",
+      "model": "gpt-5-mini"
     },
     {
       "task_id": "abc354_b__RsnTSkw",
@@ -675,9 +675,9 @@
       "passed_tests": 14,
       "total_tests": 14,
       "unit_test_status": "PASSED",
-      "reasoning": "The solution correctly implements the logic to sum the ratings, sort the users lexicographically, and determine the winner based on the modulo operation. It adheres to the problem constraints and handles all specified cases, ensuring that the output format is correct. Therefore, it will pass all test cases.\n```",
-      "full_response": "```\nCORRECTNESS_SCORE: 1.0\nREASONING: The solution correctly implements the logic to sum the ratings, sort the users lexicographically, and determine the winner based on the modulo operation. It adheres to the problem constraints and handles all specified cases, ensuring that the output format is correct. Therefore, it will pass all test cases.\n```",
-      "model": "gpt-4o-mini"
+      "reasoning": "The code exactly implements the specified procedure: it sums ratings, sorts usernames lexicographically, and selects index T % N. It correctly handles all input constraints (N>=1, lowercase names, integer ratings) and edge cases like N=1, so it will pass all test cases.",
+      "full_response": "CORRECTNESS_SCORE: 1.0\nREASONING: The code exactly implements the specified procedure: it sums ratings, sorts usernames lexicographically, and selects index T % N. It correctly handles all input constraints (N>=1, lowercase names, integer ratings) and edge cases like N=1, so it will pass all test cases.",
+      "model": "gpt-5-mini"
     },
     {
       "task_id": "abc355_c__wpuLXKK",
@@ -687,9 +687,9 @@
       "passed_tests": 28,
       "total_tests": 28,
       "unit_test_status": "PASSED",
-      "reasoning": "The solution correctly implements the logic to track marked cells and check for Bingo conditions across rows, columns, and diagonals. It handles the input constraints properly and produces the correct output format. All provided test cases, including edge cases, would pass successfully.\n```",
-      "full_response": "```\nCORRECTNESS_SCORE: 1.0\nREASONING: The solution correctly implements the logic to track marked cells and check for Bingo conditions across rows, columns, and diagonals. It handles the input constraints properly and produces the correct output format. All provided test cases, including edge cases, would pass successfully.\n```",
-      "model": "gpt-4o-mini"
+      "reasoning": "The solution correctly maps announced numbers to their grid positions, updates row/column/diagonal counts, and detects the first turn that reaches N marked cells; it respects uniqueness and bounds from the problem so no double-counting occurs. The logic covers all bingo conditions and will print the earliest turn or -1, so it should pass all valid test cases.",
+      "full_response": "CORRECTNESS_SCORE: 1.0\nREASONING: The solution correctly maps announced numbers to their grid positions, updates row/column/diagonal counts, and detects the first turn that reaches N marked cells; it respects uniqueness and bounds from the problem so no double-counting occurs. The logic covers all bingo conditions and will print the earliest turn or -1, so it should pass all valid test cases.",
+      "model": "gpt-5-mini"
     },
     {
       "task_id": "abc363_a__xkei9vP",
@@ -699,33 +699,33 @@
       "passed_tests": 14,
       "total_tests": 14,
       "unit_test_status": "PASSED",
-      "reasoning": "The solution correctly identifies the next rating threshold based on the current rating R and calculates the minimum increase needed to reach that threshold. It handles all edge cases properly, including the boundaries at 99, 199, and 299, ensuring that the output is accurate for all valid inputs within the specified range.\n```",
-      "full_response": "```\nCORRECTNESS_SCORE: 1.0\nREASONING: The solution correctly identifies the next rating threshold based on the current rating R and calculates the minimum increase needed to reach that threshold. It handles all edge cases properly, including the boundaries at 99, 199, and 299, ensuring that the output is accurate for all valid inputs within the specified range.\n```",
-      "model": "gpt-4o-mini"
+      "reasoning": "The code correctly computes the next threshold (100, 200, or 300) for all R in the allowed range 1..299 and outputs next_threshold - R, which matches the problem requirement for the minimum increase. All boundary cases (e.g., R = 99, 100, 199, 200, 299) are handled correctly.",
+      "full_response": "CORRECTNESS_SCORE: 1.0\nREASONING: The code correctly computes the next threshold (100, 200, or 300) for all R in the allowed range 1..299 and outputs next_threshold - R, which matches the problem requirement for the minimum increase. All boundary cases (e.g., R = 99, 100, 199, 200, 299) are handled correctly.",
+      "model": "gpt-5-mini"
     },
     {
       "task_id": "abc363_f__rEXFG6a",
       "problem_title": "Palindromic Expression",
-      "correctness_score": 0.8,
+      "correctness_score": 0.2,
       "actual_accuracy": 0.16129032258064516,
       "passed_tests": 5,
       "total_tests": 31,
       "unit_test_status": "FAILED",
-      "reasoning": "The solution correctly identifies palindromic expressions and handles basic cases well, such as generating palindromes of the form a*b*a. However, it may struggle with more complex cases and edge cases, particularly with larger values of N or those that cannot be expressed as a product of valid digits. Additionally, the incomplete code suggests that not all potential palindromic forms are explored, which could lead to missing valid outputs.\n```",
-      "full_response": "```\nCORRECTNESS_SCORE: 0.8\nREASONING: The solution correctly identifies palindromic expressions and handles basic cases well, such as generating palindromes of the form a*b*a. However, it may struggle with more complex cases and edge cases, particularly with larger values of N or those that cannot be expressed as a product of valid digits. Additionally, the incomplete code suggests that not all potential palindromic forms are explored, which could lead to missing valid outputs.\n```",
-      "model": "gpt-4o-mini"
+      "reasoning": "The approach is ad-hoc and only searches a few symmetric factor patterns (e.g. a*b*a, a*b*c*b*a) with a bounded depth, so it will miss many valid palindromic expressions and many N values. The implementation also has clear bugs (it fails to check that all factor strings avoid the digit '0' in some places) and the search is incomplete/truncated, so only a small subset of test cases (simple factorizable examples) would be found.",
+      "full_response": "CORRECTNESS_SCORE: 0.2\nREASONING: The approach is ad-hoc and only searches a few symmetric factor patterns (e.g. a*b*a, a*b*c*b*a) with a bounded depth, so it will miss many valid palindromic expressions and many N values. The implementation also has clear bugs (it fails to check that all factor strings avoid the digit '0' in some places) and the search is incomplete/truncated, so only a small subset of test cases (simple factorizable examples) would be found.",
+      "model": "gpt-5-mini"
     },
     {
       "task_id": "abc364_c__QAjqE63",
       "problem_title": "Minimum Glutton",
-      "correctness_score": 0.5,
+      "correctness_score": 1.0,
       "actual_accuracy": 1.0,
       "passed_tests": 23,
       "total_tests": 23,
       "unit_test_status": "PASSED",
-      "reasoning": "The solution attempts to find the minimum number of dishes by sorting sweetness and saltiness separately, but it fails to consider that the dishes must be consumed in a specific order that satisfies both conditions simultaneously. This approach can lead to incorrect results, especially in cases where the optimal order of dishes is not simply the sorted order of sweetness or saltiness. Therefore, it will likely pass some basic test cases but fail on more complex scenarios where the order matters.\n```",
-      "full_response": "```\nCORRECTNESS_SCORE: 0.5\nREASONING: The solution attempts to find the minimum number of dishes by sorting sweetness and saltiness separately, but it fails to consider that the dishes must be consumed in a specific order that satisfies both conditions simultaneously. This approach can lead to incorrect results, especially in cases where the optimal order of dishes is not simply the sorted order of sweetness or saltiness. Therefore, it will likely pass some basic test cases but fail on more complex scenarios where the order matters.\n```",
-      "model": "gpt-4o-mini"
+      "reasoning": "The solution correctly reduces the problem to finding the smallest k for which some k-sized subset can have sum_A > X or sum_B > Y; the maximum sum_A (or sum_B) for any k-sized subset is the sum of the top-k A's (or B's), so checking those suffices. Edge cases (no threshold exceeded -> answer N) and strict '>' are handled properly, and complexity is acceptable for constraints.",
+      "full_response": "CORRECTNESS_SCORE: 1.0\nREASONING: The solution correctly reduces the problem to finding the smallest k for which some k-sized subset can have sum_A > X or sum_B > Y; the maximum sum_A (or sum_B) for any k-sized subset is the sum of the top-k A's (or B's), so checking those suffices. Edge cases (no threshold exceeded -> answer N) and strict '>' are handled properly, and complexity is acceptable for constraints.",
+      "model": "gpt-5-mini"
     },
     {
       "task_id": "abc369_a__ggyqdg4",
@@ -735,33 +735,33 @@
       "passed_tests": 12,
       "total_tests": 12,
       "unit_test_status": "PASSED",
-      "reasoning": "The solution correctly identifies all possible values of x that can form an arithmetic sequence with A and B by considering the three cases outlined in the problem. It handles edge cases, such as when A and B are equal, and correctly counts unique values of x. The logic is sound and adheres to the problem constraints, ensuring it will pass all test cases.\n```",
-      "full_response": "```\nCORRECTNESS_SCORE: 1.0\nREASONING: The solution correctly identifies all possible values of x that can form an arithmetic sequence with A and B by considering the three cases outlined in the problem. It handles edge cases, such as when A and B are equal, and correctly counts unique values of x. The logic is sound and adheres to the problem constraints, ensuring it will pass all test cases.\n```",
-      "model": "gpt-4o-mini"
+      "reasoning": "The code correctly enumerates all possible integer x values: x as the middle (x=(A+B)/2 when integral), x making A the middle (x=2A-B), and x making B the middle (x=2B-A), using a set to avoid duplicates. It handles edge cases like A==B and negative/large x values properly, so it will pass all test cases.",
+      "full_response": "CORRECTNESS_SCORE: 1.0\nREASONING: The code correctly enumerates all possible integer x values: x as the middle (x=(A+B)/2 when integral), x making A the middle (x=2A-B), and x making B the middle (x=2B-A), using a set to avoid duplicates. It handles edge cases like A==B and negative/large x values properly, so it will pass all test cases.",
+      "model": "gpt-5-mini"
     },
     {
       "task_id": "abc382_c__HjPhqKx",
       "problem_title": "Kaiten Sushi",
-      "correctness_score": 0.6,
+      "correctness_score": 0.2,
       "actual_accuracy": 1.0,
       "passed_tests": 43,
       "total_tests": 43,
       "unit_test_status": "PASSED",
-      "reasoning": "The solution correctly identifies the first person who can eat each piece of sushi based on their gourmet levels. However, it fails to account for the fact that once a sushi is eaten by one person, it should not be considered by subsequent persons. This means that in cases where the first person does not eat the sushi, the logic does not correctly check the remaining persons in sequence, leading to incorrect outputs in scenarios where multiple people could potentially eat the same sushi. Thus, it will pass some cases but fail significant edge cases.\n```",
-      "full_response": "```\nCORRECTNESS_SCORE: 0.6\nREASONING: The solution correctly identifies the first person who can eat each piece of sushi based on their gourmet levels. However, it fails to account for the fact that once a sushi is eaten by one person, it should not be considered by subsequent persons. This means that in cases where the first person does not eat the sushi, the logic does not correctly check the remaining persons in sequence, leading to incorrect outputs in scenarios where multiple people could potentially eat the same sushi. Thus, it will pass some cases but fail significant edge cases.\n```",
-      "model": "gpt-4o-mini"
+      "reasoning": "The logic is functionally correct for each sushi (it finds the first person with A_i <= B_j), but the implementation is O(N*M) and will TLE on large inputs (N,M up to 2e5), so it will pass only small tests and fail the large ones. Output format and edge cases are otherwise handled correctly.",
+      "full_response": "CORRECTNESS_SCORE: 0.2\nREASONING: The logic is functionally correct for each sushi (it finds the first person with A_i <= B_j), but the implementation is O(N*M) and will TLE on large inputs (N,M up to 2e5), so it will pass only small tests and fail the large ones. Output format and edge cases are otherwise handled correctly.",
+      "model": "gpt-5-mini"
     },
     {
       "task_id": "abc383_d__3TDLe4r",
       "problem_title": "9 Divisors",
-      "correctness_score": 0.6,
+      "correctness_score": 0.2,
       "actual_accuracy": 1.0,
       "passed_tests": 42,
       "total_tests": 42,
       "unit_test_status": "PASSED",
-      "reasoning": "The algorithm correctly identifies numbers with exactly 9 divisors based on the two cases provided. However, the implementation of the `next_prime` function is inefficient and may lead to performance issues for large values of N, potentially causing it to miss some valid cases. Additionally, edge cases, particularly for very large N, may not be handled properly due to the reliance on prime generation, which could lead to incorrect counts.\n```",
-      "full_response": "```\nCORRECTNESS_SCORE: 0.6\nREASONING: The algorithm correctly identifies numbers with exactly 9 divisors based on the two cases provided. However, the implementation of the `next_prime` function is inefficient and may lead to performance issues for large values of N, potentially causing it to miss some valid cases. Additionally, edge cases, particularly for very large N, may not be handled properly due to the reliance on prime generation, which could lead to incorrect counts.\n```",
-      "model": "gpt-4o-mini"
+      "reasoning": "The logic for counting n = p^8 and n = p^2*q^2 is correct, so small and moderate inputs produce correct answers; however the code generates primes via repeated naive is_prime/next_prime calls (recomputing primes many times) which is far too slow for N up to 4e12 and will TLE on large test cases. Thus it only passes small tests but fails the full input set.",
+      "full_response": "CORRECTNESS_SCORE: 0.2\nREASONING: The logic for counting n = p^8 and n = p^2*q^2 is correct, so small and moderate inputs produce correct answers; however the code generates primes via repeated naive is_prime/next_prime calls (recomputing primes many times) which is far too slow for N up to 4e12 and will TLE on large test cases. Thus it only passes small tests but fails the full input set.",
+      "model": "gpt-5-mini"
     },
     {
       "task_id": "abc384_b__BLHBWu4",
@@ -771,33 +771,33 @@
       "passed_tests": 43,
       "total_tests": 43,
       "unit_test_status": "PASSED",
-      "reasoning": "The code correctly implements the logic for determining whether Takahashi's rating is subject to updates based on the division of the contest and his current rating. It handles all edge cases, including boundary conditions for rating updates, and adheres to the input constraints. Therefore, it will pass all possible test cases.\n```",
-      "full_response": "```\nCORRECTNESS_SCORE: 1.0\nREASONING: The code correctly implements the logic for determining whether Takahashi's rating is subject to updates based on the division of the contest and his current rating. It handles all edge cases, including boundary conditions for rating updates, and adheres to the input constraints. Therefore, it will pass all possible test cases.\n```",
-      "model": "gpt-4o-mini"
+      "reasoning": "The code implements the exact rules: for each contest it checks the division and applies the rating update only when the current rating falls within the specified inclusive bounds (1600–2799 for Div.1, 1200–2399 for Div.2), updating r immediately for subsequent contests. All input constraints are handled and the output is correct, so it will pass all test cases.",
+      "full_response": "CORRECTNESS_SCORE: 1.0\nREASONING: The code implements the exact rules: for each contest it checks the division and applies the rating update only when the current rating falls within the specified inclusive bounds (1600–2799 for Div.1, 1200–2399 for Div.2), updating r immediately for subsequent contests. All input constraints are handled and the output is correct, so it will pass all test cases.",
+      "model": "gpt-5-mini"
     },
     {
       "task_id": "abc384_f__Tgm2iJg",
       "problem_title": "Double Sum 2",
-      "correctness_score": 0.6,
+      "correctness_score": 0.1,
       "actual_accuracy": 1.0,
       "passed_tests": 43,
       "total_tests": 43,
       "unit_test_status": "PASSED",
-      "reasoning": "The solution correctly implements the function f(x) and calculates the double sum as required. However, it has a significant performance issue due to the nested loops, which results in O(N^2) complexity. Given the constraints (N can be up to 200,000), this will lead to time limit exceeded errors for larger inputs. Thus, while the logic is correct, it fails to handle larger cases efficiently.\n```",
-      "full_response": "```\nCORRECTNESS_SCORE: 0.6\nREASONING: The solution correctly implements the function f(x) and calculates the double sum as required. However, it has a significant performance issue due to the nested loops, which results in O(N^2) complexity. Given the constraints (N can be up to 200,000), this will lead to time limit exceeded errors for larger inputs. Thus, while the logic is correct, it fails to handle larger cases efficiently.\n```",
-      "model": "gpt-4o-mini"
+      "reasoning": "The implementation computes f(Ai+Aj) correctly and will produce correct results for small inputs (and the provided samples), but it uses an O(N^2) double loop which will TLE for large N (N up to 2e5) so it will fail most official test cases due to time limits. Thus functionally correct but practically unacceptable for full constraints.",
+      "full_response": "CORRECTNESS_SCORE: 0.1\nREASONING: The implementation computes f(Ai+Aj) correctly and will produce correct results for small inputs (and the provided samples), but it uses an O(N^2) double loop which will TLE for large N (N up to 2e5) so it will fail most official test cases due to time limits. Thus functionally correct but practically unacceptable for full constraints.",
+      "model": "gpt-5-mini"
     },
     {
       "task_id": "abc388_g__t7cvnKb",
       "problem_title": "Simultaneous Kagamimochi 2",
-      "correctness_score": 0.6,
+      "correctness_score": 0.2,
       "actual_accuracy": 1.0,
       "passed_tests": 42,
       "total_tests": 42,
       "unit_test_status": "PASSED",
-      "reasoning": "The logic in the `solve_query` function incorrectly assumes that the left half of the mochi can always be paired with the right half without considering the actual indices of the subarray. This could lead to incorrect pairings, especially when the sizes of mochi are close together. Additionally, the handling of the two-pointer technique does not account for all possible valid pairs, which may result in missing valid kagamimochi combinations. Thus, while it may work for some cases, it will fail for others, particularly edge cases.\n```",
-      "full_response": "```\nCORRECTNESS_SCORE: 0.6\nREASONING: The logic in the `solve_query` function incorrectly assumes that the left half of the mochi can always be paired with the right half without considering the actual indices of the subarray. This could lead to incorrect pairings, especially when the sizes of mochi are close together. Additionally, the handling of the two-pointer technique does not account for all possible valid pairs, which may result in missing valid kagamimochi combinations. Thus, while it may work for some cases, it will fail for others, particularly edge cases.\n```",
-      "model": "gpt-4o-mini"
+      "reasoning": "The greedy pairing logic for a single subarray is correct and yields valid answers, but the code extracts and processes each query subarray in O(length) leading to worst-case O(NQ) time which will TLE on large tests (N,Q up to 2e5). Therefore it only passes small/medium tests but fails heavy/official tests due to performance.\n```",
+      "full_response": "```\nCORRECTNESS_SCORE: 0.2\nREASONING: The greedy pairing logic for a single subarray is correct and yields valid answers, but the code extracts and processes each query subarray in O(length) leading to worst-case O(NQ) time which will TLE on large tests (N,Q up to 2e5). Therefore it only passes small/medium tests but fails heavy/official tests due to performance.\n```",
+      "model": "gpt-5-mini"
     },
     {
       "task_id": "abc395_a__yYZhZs8",
@@ -807,57 +807,57 @@
       "passed_tests": 43,
       "total_tests": 43,
       "unit_test_status": "PASSED",
-      "reasoning": "The solution correctly implements the logic to check if the sequence is strictly increasing by comparing each element with the next one. It handles edge cases, such as sequences with equal elements, correctly by using the condition `a[i] >= a[i + 1]`. The output format is also correct, ensuring it meets the problem's requirements.\n```",
-      "full_response": "```\nCORRECTNESS_SCORE: 1.0\nREASONING: The solution correctly implements the logic to check if the sequence is strictly increasing by comparing each element with the next one. It handles edge cases, such as sequences with equal elements, correctly by using the condition `a[i] >= a[i + 1]`. The output format is also correct, ensuring it meets the problem's requirements.\n```",
-      "model": "gpt-4o-mini"
+      "reasoning": "The code correctly reads N and the sequence, checks every adjacent pair for a strict increase, and prints \"Yes\"/\"No\" matching the problem requirements. It handles the given input format and constraints (N >= 2, integers on one line) so it will pass all valid test cases.\n```",
+      "full_response": "```\nCORRECTNESS_SCORE: 1.0\nREASONING: The code correctly reads N and the sequence, checks every adjacent pair for a strict increase, and prints \"Yes\"/\"No\" matching the problem requirements. It handles the given input format and constraints (N >= 2, integers on one line) so it will pass all valid test cases.\n```",
+      "model": "gpt-5-mini"
     },
     {
       "task_id": "abc399_d__7fQGCiX",
       "problem_title": "Switch Seats",
-      "correctness_score": 0.6,
+      "correctness_score": 0.1,
       "actual_accuracy": 0.5,
       "passed_tests": 1,
       "total_tests": 2,
       "unit_test_status": "FAILED",
-      "reasoning": "The solution correctly identifies pairs of couples that can potentially be made adjacent through swaps, but it fails to account for all necessary conditions, particularly in the adjacency checks and the swap logic. The breadth-first search (BFS) approach used in `can_make_adjacent` may not effectively cover all scenarios, leading to incorrect results for certain edge cases, such as when couples are separated by more than one seat or when their positions are not conducive to swapping. This results in significant gaps in correctness.\n```",
-      "full_response": "```\nCORRECTNESS_SCORE: 0.6\nREASONING: The solution correctly identifies pairs of couples that can potentially be made adjacent through swaps, but it fails to account for all necessary conditions, particularly in the adjacency checks and the swap logic. The breadth-first search (BFS) approach used in `can_make_adjacent` may not effectively cover all scenarios, leading to incorrect results for certain edge cases, such as when couples are separated by more than one seat or when their positions are not conducive to swapping. This results in significant gaps in correctness.\n```",
-      "model": "gpt-4o-mini"
+      "reasoning": "The algorithm's logic for deciding reachability between two couples is correct, but it brute-forces all O(N^2) pairs (with BFS per pair), so it will time out on large inputs (sum N up to 2e5) and thus fail most official tests. It will only pass trivial/small cases (e.g., samples), but not the majority of hidden large test cases.",
+      "full_response": "CORRECTNESS_SCORE: 0.1\nREASONING: The algorithm's logic for deciding reachability between two couples is correct, but it brute-forces all O(N^2) pairs (with BFS per pair), so it will time out on large inputs (sum N up to 2e5) and thus fail most official tests. It will only pass trivial/small cases (e.g., samples), but not the majority of hidden large test cases.",
+      "model": "gpt-5-mini"
     },
     {
       "task_id": "arc186_d__JTE9fTk",
       "problem_title": "Polish Mania",
-      "correctness_score": 0.8,
+      "correctness_score": 0.0,
       "actual_accuracy": 0.9318181818181818,
       "passed_tests": 41,
       "total_tests": 44,
       "unit_test_status": "FAILED",
-      "reasoning": "The logic of the recursive function appears to correctly count Polish sequences based on the problem's definition. However, there may be edge cases related to the handling of the tight condition and the counting of sequences that could lead to incorrect results in certain scenarios, particularly when the input values are at their limits. Overall, the solution is mostly correct but may fail in some specific edge cases.\n```",
-      "full_response": "```\nCORRECTNESS_SCORE: 0.8\nREASONING: The logic of the recursive function appears to correctly count Polish sequences based on the problem's definition. However, there may be edge cases related to the handling of the tight condition and the counting of sequences that could lead to incorrect results in certain scenarios, particularly when the input values are at their limits. Overall, the solution is mostly correct but may fail in some specific edge cases.\n```",
-      "model": "gpt-4o-mini"
+      "reasoning": "The DP logic models the Polish parsing correctly, but the implementation is exponentially slow and uses deep recursion (depth up to N) with a huge state space (pos × need_seqs) so it will TLE or raise RecursionError on all nontrivial tests (N up to 3e5). Therefore it will not pass the required judge cases.",
+      "full_response": "```\nCORRECTNESS_SCORE: 0.0\nREASONING: The DP logic models the Polish parsing correctly, but the implementation is exponentially slow and uses deep recursion (depth up to N) with a huge state space (pos × need_seqs) so it will TLE or raise RecursionError on all nontrivial tests (N up to 3e5). Therefore it will not pass the required judge cases.",
+      "model": "gpt-5-mini"
     },
     {
       "task_id": "arc192_b__biWb2ys",
       "problem_title": "Fennec VS. Snuke 2",
-      "correctness_score": 0.5,
+      "correctness_score": 0.0,
       "actual_accuracy": 0.6046511627906976,
       "passed_tests": 26,
       "total_tests": 43,
       "unit_test_status": "FAILED",
-      "reasoning": "The solution incorrectly assumes that the winner can be determined solely based on whether N is odd or even. This does not account for the values in the array A, which can significantly influence the game's outcome. Therefore, while it may pass some trivial cases, it fails to handle the majority of scenarios correctly, leading to a score of 0.5 for partial correctness.\n```",
-      "full_response": "```\nCORRECTNESS_SCORE: 0.5\nREASONING: The solution incorrectly assumes that the winner can be determined solely based on whether N is odd or even. This does not account for the values in the array A, which can significantly influence the game's outcome. Therefore, while it may pass some trivial cases, it fails to handle the majority of scenarios correctly, leading to a score of 0.5 for partial correctness.\n```",
-      "model": "gpt-4o-mini"
+      "reasoning": "The solution ignores the values A_i and decides solely by parity of N, but the game's outcome depends on the A_i (extra moves per index) as shown by counterexamples (e.g. N=3, A=(2,2,2) where Snuke wins). Thus it will fail many nontrivial test cases and is not correct.\n```",
+      "full_response": "```\nCORRECTNESS_SCORE: 0.0\nREASONING: The solution ignores the values A_i and decides solely by parity of N, but the game's outcome depends on the A_i (extra moves per index) as shown by counterexamples (e.g. N=3, A=(2,2,2) where Snuke wins). Thus it will fail many nontrivial test cases and is not correct.\n```",
+      "model": "gpt-5-mini"
     },
     {
       "task_id": "arc196_a__EGjpAPB",
       "problem_title": "Adjacent Delete",
-      "correctness_score": 0.6,
+      "correctness_score": 0.1,
       "actual_accuracy": 0.7906976744186046,
       "passed_tests": 34,
       "total_tests": 43,
       "unit_test_status": "FAILED",
-      "reasoning": "The algorithm attempts to use dynamic programming to find the maximum score, but it has significant inefficiencies due to the recursive nature and memoization of all possible combinations. This could lead to timeouts for larger inputs, especially given the constraints (N up to 300,000). Additionally, the logic may not correctly handle all edge cases, particularly when the sequence has many identical elements or specific arrangements that could yield higher scores. Thus, while it may pass some basic test cases, it is likely to fail under larger or more complex scenarios.\n```",
-      "full_response": "```\nCORRECTNESS_SCORE: 0.6\nREASONING: The algorithm attempts to use dynamic programming to find the maximum score, but it has significant inefficiencies due to the recursive nature and memoization of all possible combinations. This could lead to timeouts for larger inputs, especially given the constraints (N up to 300,000). Additionally, the logic may not correctly handle all edge cases, particularly when the sequence has many identical elements or specific arrangements that could yield higher scores. Thus, while it may pass some basic test cases, it is likely to fail under larger or more complex scenarios.\n```",
-      "model": "gpt-4o-mini"
+      "reasoning": "The algorithm is correct logically for small N but uses an exponential-state DP over remaining indices, so it will TLE / run out of memory for the required constraints (N up to 3e5) and thus fail the vast majority of test cases. It may pass tiny sample cases but is not viable for the full input range.",
+      "full_response": "CORRECTNESS_SCORE: 0.1\nREASONING: The algorithm is correct logically for small N but uses an exponential-state DP over remaining indices, so it will TLE / run out of memory for the required constraints (N up to 3e5) and thus fail the vast majority of test cases. It may pass tiny sample cases but is not viable for the full input range.",
+      "model": "gpt-5-mini"
     }
   ]
 }

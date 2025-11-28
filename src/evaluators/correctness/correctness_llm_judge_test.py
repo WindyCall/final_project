@@ -25,7 +25,7 @@ def main():
 
     tasks_json = "./outputs/extracted/correctness/extracted_tasks_with_correctness_prompts.json"
     output_file = "./outputs/results/correctness/correctness_llm_judge_test_results.json"
-    model = "gpt-4o-mini"
+    model = "gpt-5-mini"
 
     # TEST PARAMETERS
     TEST_SIZE = 5
