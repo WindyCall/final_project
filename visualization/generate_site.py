@@ -11,8 +11,8 @@ import pandas as pd
 BASE_DIR = Path(__file__).resolve().parent.parent
 CSV_FILE = BASE_DIR / "outputs" / "results" / "trivial" / "trivial_combined_results_summary.csv"
 JSON_DETAILS_FILE = BASE_DIR / "outputs" / "results" / "trivial" / "trivial_combined_results_summary.json"
-AGENT_MULTI_ROOT = BASE_DIR / "agent_judge_tasks_results" / "agent_multi_spec_results"
-AGENT_UNIT_PROMPT_ROOT = BASE_DIR / "agent_judge_tasks_results" / "agent_unit_test_judge_result"
+AGENT_MULTI_ROOT = BASE_DIR / "agent_judge_tasks_results" / "agent_multi_spec_result"
+AGENT_UNIT_PROMPT_ROOT = BASE_DIR / "agent_judge_tasks_results" / "agent_unit_test_result"
 AGENT_CORRECTNESS_ROOT = BASE_DIR / "agent_judge_tasks" / "correctness_judge" / "correctness_judge_tasks"
 OUTPUT_DIR = Path(__file__).resolve().parent / "harbor_viz_site"
 LOG_FILE_CANDIDATES = [
@@ -830,11 +830,31 @@ def get_score_text_color(score):
 
 print("Building dashboard index ...")
 tasks_data = []
+skipped_tasks = []
 
 for _, row in df.iterrows():
     task_id = str(row.get('ID', '')).strip()
     safe_id = task_id.replace('/', '_').replace('\\', '_')
     detail_entry = DETAIL_LOOKUP.get(task_id)
+
+    # Validation flags
+    has_errors = False
+    error_messages = []
+
+    # Check for trajectory files
+    agent_multi_log = find_agent_log_file(task_id, AGENT_MULTI_INDEX, AGENT_MULTI_ROOT)
+    agent_prompt_log = find_agent_log_file(task_id, AGENT_UNIT_PROMPT_INDEX, AGENT_UNIT_PROMPT_ROOT)
+    agent_correctness_log = find_agent_log_file(task_id, AGENT_CORRECTNESS_INDEX, AGENT_CORRECTNESS_ROOT)
+
+    # Validate that at least one trajectory file exists
+    if not agent_multi_log and not agent_prompt_log and not agent_correctness_log:
+        error_messages.append(f"No trajectory files found")
+        has_errors = True
+
+    # Check if trajectory files can be parsed
+    agent_multi_trajectory = parse_logs(agent_multi_log) if agent_multi_log else []
+    agent_prompt_trajectory = parse_logs(agent_prompt_log) if agent_prompt_log else []
+    agent_correctness_trajectory = parse_logs(agent_correctness_log) if agent_correctness_log else []
 
     problem_desc_source = None
     if detail_entry:
@@ -846,12 +866,17 @@ for _, row in df.iterrows():
     problem_desc_str = clean_problem_description(problem_desc_source)
     desc_clean = problem_desc_str.replace('\n', ' ')
 
+    # Validate problem description
+    if not problem_desc_str or not problem_desc_str.strip():
+        error_messages.append(f"Empty problem description")
+        has_errors = True
+
     title_line = ""
     if detail_entry and detail_entry.get('problem_title'):
         title_line = str(detail_entry['problem_title'])
     elif problem_desc_str:
         title_line = problem_desc_str.split('\n')[0]
-    
+
     def pick_score(detail_key, csv_key):
         candidate = detail_entry.get(detail_key) if detail_entry else None
         if candidate in (None, "", "-"):
@@ -859,8 +884,37 @@ for _, row in df.iterrows():
         return normalize_score(candidate)
 
     unit_score = pick_score('unit_test_score', 'Unit test Scores')
-    llm_score = pick_score('llm_judge_score', 'LLM Judgment Score')
+
+    # Get task_id_base for LLM judge lookup
+    task_id_parts = task_id.rsplit('__', 1)
+    task_id_base = (task_id_parts[0] if len(task_id_parts) > 1 else task_id).lower()
+
+    llm_multi_data = LLM_MULTI_ASPECT_RESULTS.get(task_id_base, {})
+    llm_correctness_data = LLM_CORRECTNESS_RESULTS.get(task_id_base, {})
+
+    llm_multi_reasoning = llm_multi_data.get('reasoning', '') if llm_multi_data else ''
+    llm_correctness_reasoning = llm_correctness_data.get('reasoning', '') if llm_correctness_data else ''
+    llm_score_from_json = llm_multi_data.get('average_score', None) if llm_multi_data else None
+
+    llm_score = normalize_score(llm_score_from_json) if llm_score_from_json is not None else pick_score('llm_judge_score', 'LLM Judgment Score')
     agent_score = pick_score('agent_judge_score', 'Agent Judgement Score')
+
+    # Validate LLM judge data
+    if not llm_multi_reasoning and not llm_correctness_reasoning:
+        error_messages.append(f"Missing LLM judge reasoning")
+        has_errors = True
+
+    # Validate unit test data
+    unit_test_details = detail_entry.get('unit_test_details') if detail_entry else row.get('Unittest details', '')
+    if pd.isna(unit_test_details) or not unit_test_details or (isinstance(unit_test_details, str) and not unit_test_details.strip()):
+        error_messages.append(f"Missing unit test details")
+        has_errors = True
+
+    # Log and skip if there are errors
+    if has_errors:
+        print(f"[SKIP] Task '{task_id}': {', '.join(error_messages)}")
+        skipped_tasks.append(task_id)
+        continue
 
     tasks_data.append({
         "id": task_id,
@@ -879,6 +933,13 @@ for _, row in df.iterrows():
         "color_agent": get_score_text_color(agent_score),
     })
 
+print(f"\n{'='*60}")
+print(f"Build Summary:")
+print(f"  Total tasks processed: {len(df)}")
+print(f"  [OK] Tasks included: {len(tasks_data)}")
+print(f"  [SKIP] Tasks skipped: {len(skipped_tasks)}")
+print(f"{'='*60}\n")
+
 template_index = jinja2.Template(INDEX_TEMPLATE)
 index_path = OUTPUT_DIR / "index.html"
 with index_path.open("w", encoding='utf-8') as f:
@@ -889,13 +950,18 @@ template_detail = jinja2.Template(DETAIL_TEMPLATE)
 
 for _, row in df.iterrows():
     task_id = str(row.get('ID', '')).strip()
+
+    # Skip tasks that were excluded from the index
+    if task_id in skipped_tasks:
+        continue
+
     safe_id = task_id.replace('/', '_').replace('\\', '_')
     agent_multi_log = find_agent_log_file(task_id, AGENT_MULTI_INDEX, AGENT_MULTI_ROOT)
     agent_prompt_log = find_agent_log_file(task_id, AGENT_UNIT_PROMPT_INDEX, AGENT_UNIT_PROMPT_ROOT)
     agent_correctness_log = find_agent_log_file(task_id, AGENT_CORRECTNESS_INDEX, AGENT_CORRECTNESS_ROOT)
-    agent_multi_trajectory = parse_logs(agent_multi_log)
-    agent_prompt_trajectory = parse_logs(agent_prompt_log)
-    agent_correctness_trajectory = parse_logs(agent_correctness_log)
+    agent_multi_trajectory = parse_logs(agent_multi_log) if agent_multi_log else []
+    agent_prompt_trajectory = parse_logs(agent_prompt_log) if agent_prompt_log else []
+    agent_correctness_trajectory = parse_logs(agent_correctness_log) if agent_correctness_log else []
 
     # Get LLM judge reasoning and scores from JSON files
     # The JSON files use task_id without the suffix (e.g., "1873_d__ewd5mxi")
@@ -948,6 +1014,17 @@ for _, row in df.iterrows():
     if pd.isna(model_solution):
         model_solution = ""
 
+    unit_test_details_text = detail_entry.get('unit_test_details') if detail_entry and detail_entry.get('unit_test_details') else row.get('Unittest details', '')
+    llm_judge_reasoning_text = detail_entry.get('llm_judge_reasoning') if detail_entry and detail_entry.get('llm_judge_reasoning') else row.get('LLM Judgement Reasoning', '')
+    agent_judge_reasoning_text = detail_entry.get('agent_judge_reasoning') if detail_entry and detail_entry.get('agent_judge_reasoning') else row.get('Agent Judgement Reasoning', '')
+
+    if pd.isna(unit_test_details_text):
+        unit_test_details_text = ""
+    if pd.isna(llm_judge_reasoning_text):
+        llm_judge_reasoning_text = ""
+    if pd.isna(agent_judge_reasoning_text):
+        agent_judge_reasoning_text = ""
+
     html_content = template_detail.render(
         id=task_id,
         problem_desc=escape_text(problem_desc_clean),
@@ -961,9 +1038,9 @@ for _, row in df.iterrows():
         score_color_llm=get_score_text_color(llm_score),
         score_color_agent=get_score_text_color(agent_score),
         reasoning={
-            "unit": detail_entry.get('unit_test_details') if detail_entry and detail_entry.get('unit_test_details') else row.get('Unittest details', ''),
-            "llm": detail_entry.get('llm_judge_reasoning') if detail_entry and detail_entry.get('llm_judge_reasoning') else row.get('LLM Judgement Reasoning', ''),
-            "agent": detail_entry.get('agent_judge_reasoning') if detail_entry and detail_entry.get('agent_judge_reasoning') else row.get('Agent Judgement Reasoning', '')
+            "unit": escape_text(unit_test_details_text),
+            "llm": escape_text(llm_judge_reasoning_text),
+            "agent": escape_text(agent_judge_reasoning_text)
         },
         models={
             "llm": detail_entry.get('llm_model') if detail_entry and detail_entry.get('llm_model') else row.get('LLM name', ''),
@@ -976,11 +1053,11 @@ for _, row in df.iterrows():
         has_agent_multi_logs=bool(agent_multi_trajectory),
         has_agent_prompt_logs=bool(agent_prompt_trajectory),
         has_agent_correctness_logs=bool(agent_correctness_trajectory),
-        llm_multi_reasoning=llm_multi_reasoning,
-        llm_correctness_reasoning=llm_correctness_reasoning,
+        llm_multi_reasoning=escape_text(llm_multi_reasoning),
+        llm_correctness_reasoning=escape_text(llm_correctness_reasoning),
         llm_multi_aspect_scores=llm_multi_aspect_scores
     )
-    
+
     detail_path = OUTPUT_DIR / f"task_{safe_id}.html"
     with detail_path.open("w", encoding='utf-8') as f:
         f.write(html_content)
