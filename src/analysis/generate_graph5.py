@@ -70,9 +70,21 @@ def plot_5bcde_agent_behavior(merged_df, output_dir):
                         capprops=dict(linewidth=1.2),
                         medianprops=dict(linewidth=2, color='black'))
 
-        for patch, color in zip(bp['boxes'], colors):
+        for i, (patch, color) in enumerate(zip(bp['boxes'], colors)):
             patch.set_facecolor(color)
             patch.set_alpha(0.7)
+            # For 5b (steps) and 5c (tools), hide boxes for Agent-Corr and Agent-Multi
+            if metric_name in ['steps', 'tools'] and i < 2:
+                patch.set_visible(False)
+
+        # For 5b (steps) and 5c (tools), hide median, whiskers, and caps for Agent-Corr and Agent-Multi
+        if metric_name in ['steps', 'tools']:
+            for i in range(2):
+                bp['medians'][i].set_visible(False)
+                bp['whiskers'][i*2].set_visible(False)  # Lower whisker
+                bp['whiskers'][i*2 + 1].set_visible(False)  # Upper whisker
+                bp['caps'][i*2].set_visible(False)  # Lower cap
+                bp['caps'][i*2 + 1].set_visible(False)  # Upper cap
 
         # Scatter overlay
         for i, (values, color) in enumerate(zip(data_list, colors)):
